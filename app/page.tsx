@@ -106,30 +106,35 @@ export default function TrustScorePage() {
   // Fallback data while loading or if no real data
   const fallbackAnalyses = [
     {
-      domain: "stripe.com",
-      score: 98,
+      domain: "google.com",
+      score: 99,
       time: "2m ago",
       color: "bg-emerald-500",
     },
     {
-      domain: "vercel.com",
-      score: 96,
+      domain: "apple.com",
+      score: 98,
       time: "5m ago",
       color: "bg-emerald-500",
     },
     {
-      domain: "linear.app",
-      score: 94,
-      time: "8m ago",
-      color: "bg-emerald-500",
-    },
-    {
-      domain: "github.com",
-      score: 91,
+      domain: "vercel.com",
+      score: 97,
       time: "12m ago",
       color: "bg-emerald-500",
     },
-    { domain: "notion.so", score: 87, time: "15m ago", color: "bg-yellow-500" },
+    {
+      domain: "stripe.com",
+      score: 96,
+      time: "18m ago",
+      color: "bg-emerald-500",
+    },
+    {
+      domain: "linear.app",
+      score: 95,
+      time: "25m ago",
+      color: "bg-emerald-500",
+    },
   ];
 
   const [recentAnalyses, setRecentAnalyses] = useState(fallbackAnalyses);
@@ -151,7 +156,7 @@ export default function TrustScorePage() {
   }, []);
 
   const pricingFeatures = [
-    "Unlimited website analyses",
+    "Unlimited Re-scans for 1 Domain",
     "PageSpeed & SEO reports",
     "Trust badge for your site",
     "Dofollow backlink included",
@@ -173,7 +178,7 @@ export default function TrustScorePage() {
                 <Award className="h-5 w-5 text-emerald-500" />
               </div>
               <span className="text-lg font-semibold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
-                TrustScore
+                VerifiedTrustScore
               </span>
             </div>
             <nav className="hidden md:flex items-center gap-4 text-sm">
@@ -299,9 +304,18 @@ export default function TrustScorePage() {
                   />
                   <Button
                     size="lg"
-                    className="h-14 px-8 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-all duration-300"
-                    onClick={handleAnalyze}
-                    disabled={isPending || !website.trim()}
+                    className="h-14 px-8 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-bold shadow-[0_0_20px_rgba(16,185,129,0.4)] hover:shadow-[0_0_30px_rgba(16,185,129,0.6)] transition-all duration-300 relative overflow-hidden"
+                    onClick={() => {
+                      if (!website.trim()) {
+                        const input = document.querySelector(
+                          'input[type="text"]'
+                        ) as HTMLInputElement;
+                        input?.focus();
+                        return;
+                      }
+                      handleAnalyze();
+                    }}
+                    disabled={isPending}
                   >
                     {isPending ? (
                       <>
@@ -310,8 +324,11 @@ export default function TrustScorePage() {
                       </>
                     ) : (
                       <>
-                        Analyze
-                        <ArrowRight className="ml-2 h-5 w-5" />
+                        <span className="relative z-10 flex items-center">
+                          Analyze Website
+                          <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                        </span>
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] animate-shimmer" />
                       </>
                     )}
                   </Button>
@@ -366,10 +383,8 @@ export default function TrustScorePage() {
                     ))}
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    Trusted by{" "}
-                    <span className="text-foreground font-semibold">
-                      500+ founders
-                    </span>
+                    <span className="text-emerald-400 font-medium mr-1">●</span>
+                    Join the Beta Program & Get Verified
                   </p>
                 </div>
               )}
@@ -412,12 +427,12 @@ export default function TrustScorePage() {
                             <td className="py-4 px-6">
                               <div className="flex items-center gap-3">
                                 <div
-                                  className={`h-2.5 w-2.5 rounded-full ${
-                                    analysis.color
-                                  } shadow-lg ${
+                                  className={`h-2.5 w-2.5 rounded-full shadow-lg ${
                                     analysis.score >= 90
-                                      ? "shadow-emerald-500/50"
-                                      : "shadow-yellow-500/50"
+                                      ? "bg-emerald-500 shadow-emerald-500/50"
+                                      : analysis.score >= 70
+                                      ? "bg-yellow-500 shadow-yellow-500/50"
+                                      : "bg-red-500 shadow-red-500/50"
                                   }`}
                                 />
                                 <span className="font-semibold text-white">
@@ -590,7 +605,7 @@ export default function TrustScorePage() {
                   Frequently Asked Questions
                 </h2>
                 <p className="text-muted-foreground max-w-xl mx-auto">
-                  Everything you need to know about TrustScore.
+                  Everything you need to know about VerifiedTrustScore.
                 </p>
               </div>
 
@@ -598,8 +613,8 @@ export default function TrustScorePage() {
                 <Accordion type="single" collapsible className="space-y-3">
                   {[
                     {
-                      q: "What is TrustScore?",
-                      a: "TrustScore analyzes your website's performance, SEO, accessibility, and security. Get a detailed report and claim your verified badge with a dofollow backlink.",
+                      q: "What is VerifiedTrustScore?",
+                      a: "VerifiedTrustScore analyzes your website's performance, SEO, accessibility, and security. Get a detailed report and claim your verified badge with a dofollow backlink.",
                     },
                     {
                       q: "What do I get with the $35 certification?",

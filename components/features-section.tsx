@@ -14,6 +14,7 @@ import {
   Link2,
   Award,
   Zap,
+  FileText,
 } from "lucide-react";
 
 // Analysis Steps Animation
@@ -30,10 +31,13 @@ function AnalyzeCard() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentStep((prev) => (prev + 1) % steps.length);
-    }, 2000);
+      setCurrentStep((prev) => {
+        if (prev >= steps.length - 1) return prev;
+        return prev + 1;
+      });
+    }, 3500);
     return () => clearInterval(interval);
-  }, []);
+  }, [steps.length]);
 
   return (
     <Card className="p-6 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border-white/10 h-full">
@@ -76,9 +80,9 @@ function AnalyzeCard() {
               <span
                 className={`text-sm ${
                   isCurrent
-                    ? "text-white font-medium"
+                    ? "text-white/60 font-medium"
                     : isComplete
-                    ? "text-white/80"
+                    ? "text-emerald-400 font-medium"
                     : "text-white/40"
                 }`}
               >
@@ -105,7 +109,7 @@ function ReportCard() {
     <Card className="p-6 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border-white/10 h-full">
       <div className="flex items-center gap-3 mb-4">
         <div className="p-2 rounded-lg bg-blue-500/20">
-          <TrendingUp className="h-5 w-5 text-blue-400" />
+          <FileText className="h-5 w-5 text-blue-400" />
         </div>
         <div>
           <h3 className="font-bold text-white">Detailed Reports</h3>
@@ -353,10 +357,11 @@ function BadgeCard() {
               </div>
             </div>
             <div>
-              <div className="text-xs text-gray-400">yoursite.com</div>
+              <div className="text-xs text-gray-400">
+                verifiedtrustscore.com
+              </div>
               <div className="text-sm font-semibold text-white flex items-center gap-1">
-                <Shield className="h-3 w-3 text-emerald-400" />
-                Verified Trust Score
+                Verified Website Score
               </div>
             </div>
           </div>
