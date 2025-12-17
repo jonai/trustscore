@@ -408,24 +408,24 @@ export default function TrustScorePage() {
 
               {/* Loading State with Animated Steps */}
               {isPending && (
-                <div className="max-w-2xl mx-auto mb-8 p-6 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 animate-in fade-in slide-in-from-bottom-4">
-                  <div className="flex items-center gap-4 mb-6">
+                <div className="max-w-xl mx-auto mb-8 p-4 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 animate-in fade-in slide-in-from-bottom-4">
+                  <div className="flex items-center gap-3 mb-4">
                     <div className="relative">
-                      <div className="w-14 h-14 rounded-full border-2 border-emerald-500/30 border-t-emerald-500 animate-spin" />
-                      <Search className="absolute inset-0 m-auto h-6 w-6 text-emerald-400" />
+                      <div className="w-10 h-10 rounded-full border-2 border-emerald-500/30 border-t-emerald-500 animate-spin" />
+                      <Search className="absolute inset-0 m-auto h-4 w-4 text-emerald-400" />
                     </div>
                     <div className="text-left">
-                      <p className="font-semibold text-white text-lg">
+                      <p className="font-semibold text-white text-sm">
                         Analyzing {website}
                       </p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-xs text-muted-foreground">
                         Full scan in progress...
                       </p>
                     </div>
                   </div>
 
                   {/* Animated Steps - Show only one at a time */}
-                  <div className="mb-6">
+                  <div className="mb-4">
                     {(() => {
                       const steps = [
                         { label: "Checking Performance" },
@@ -441,12 +441,12 @@ export default function TrustScorePage() {
                       const currentStep = steps[currentStepIndex];
 
                       return (
-                        <div className="flex items-center gap-3 p-4 rounded-xl bg-white/5 border border-white/10 animate-in fade-in duration-300">
-                          <Loader2 className="h-5 w-5 text-emerald-400 animate-spin" />
+                        <div className="flex items-center gap-2 p-3 rounded-lg bg-white/5 border border-white/10 text-sm">
+                          <Loader2 className="h-4 w-4 text-emerald-400 animate-spin" />
                           <span className="text-white font-medium">
                             {currentStep.label}
                           </span>
-                          <span className="text-white/40 text-sm ml-auto">
+                          <span className="text-white/40 text-xs ml-auto">
                             {currentStepIndex + 1} / {steps.length}
                           </span>
                         </div>
@@ -454,8 +454,8 @@ export default function TrustScorePage() {
                     })()}
                   </div>
 
-                  <Progress value={loadingProgress} className="h-2" />
-                  <p className="text-xs text-muted-foreground mt-3 text-center">
+                  <Progress value={loadingProgress} className="h-1.5" />
+                  <p className="text-xs text-muted-foreground mt-2 text-center">
                     This typically takes 10-30 seconds
                   </p>
                 </div>
