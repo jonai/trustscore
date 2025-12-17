@@ -73,11 +73,20 @@ export default function TrustScorePage() {
       setLoadingProgress(0);
       const interval = setInterval(() => {
         setLoadingProgress((prev) => {
-          // Slow down as we approach 85%, never go past it until complete
-          if (prev >= 85) return 85;
-          const remaining = 85 - prev;
-          const increment = Math.max(1, remaining * 0.08 + Math.random() * 3);
-          return Math.min(85, prev + increment);
+          // Fast until 70%, then slow down, very slow after 85%
+          if (prev >= 98) return 98; // Never reach 100 until complete
+          if (prev >= 85) {
+            // Very slow progress after 85%
+            return prev + 0.3;
+          }
+          if (prev >= 70) {
+            // Slower progress 70-85%
+            return prev + Math.random() * 2;
+          }
+          // Fast progress 0-70%
+          const remaining = 70 - prev;
+          const increment = Math.max(2, remaining * 0.1 + Math.random() * 5);
+          return Math.min(70, prev + increment);
         });
       }, 400);
       return () => clearInterval(interval);
