@@ -313,15 +313,13 @@ export default function TrustScorePage() {
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <Badge
-                variant="secondary"
-                className="mb-6 bg-white/5 border-white/10 backdrop-blur-sm"
-              >
-                <span className="text-white/60">✓</span>
-                <span className="ml-2">Get your badge + dofollow backlink</span>
-              </Badge>
+                {/* Get your badge text - attached to badge */}
+                <div className="flex items-center gap-2 text-sm text-white/60 mt-2">
+                  <span className="text-emerald-400">✓</span>
+                  <span>Get your badge + dofollow backlink</span>
+                </div>
+              </div>
 
               <h1 className="text-5xl md:text-7xl font-bold mb-6 text-balance bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent">
                 Make your website trustworthy
