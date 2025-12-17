@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition, useEffect } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -17,9 +18,12 @@ import {
   Loader2,
   AlertCircle,
   Sparkles,
+  Trophy,
+  Wrench,
 } from "lucide-react";
 import { analyzeWebsite, type PageSpeedResult } from "./actions/analyze";
 import { ResultsSection } from "@/components/report/results-section";
+import { Footer } from "@/components/footer";
 
 export default function TrustScorePage() {
   const [website, setWebsite] = useState("");
@@ -152,16 +156,41 @@ export default function TrustScorePage() {
       {/* Header */}
       <header className="border-b border-border/50 backdrop-blur-xl bg-background/80 sticky top-0 z-40">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div
-            className="flex items-center gap-2 cursor-pointer group"
-            onClick={handleReset}
-          >
-            <div className="p-1.5 rounded-lg bg-gradient-to-br from-emerald-500/20 to-emerald-600/10 group-hover:from-emerald-500/30 group-hover:to-emerald-600/20 transition-colors">
-              <Award className="h-5 w-5 text-emerald-500" />
+          <div className="flex items-center gap-6">
+            <div
+              className="flex items-center gap-2 cursor-pointer group"
+              onClick={handleReset}
+            >
+              <div className="p-1.5 rounded-lg bg-gradient-to-br from-emerald-500/20 to-emerald-600/10 group-hover:from-emerald-500/30 group-hover:to-emerald-600/20 transition-colors">
+                <Award className="h-5 w-5 text-emerald-500" />
+              </div>
+              <span className="text-lg font-semibold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
+                TrustScore
+              </span>
             </div>
-            <span className="text-lg font-semibold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
-              TrustScore
-            </span>
+            <nav className="hidden md:flex items-center gap-4 text-sm">
+              <Link
+                href="/certified-websites"
+                className="text-muted-foreground hover:text-white transition-colors flex items-center gap-1"
+              >
+                <Award className="h-4 w-4" />
+                Certified
+              </Link>
+              <Link
+                href="/leaderboard"
+                className="text-muted-foreground hover:text-white transition-colors flex items-center gap-1"
+              >
+                <Trophy className="h-4 w-4" />
+                Leaderboard
+              </Link>
+              <Link
+                href="/tools"
+                className="text-muted-foreground hover:text-white transition-colors flex items-center gap-1"
+              >
+                <Wrench className="h-4 w-4" />
+                Tools
+              </Link>
+            </nav>
           </div>
           <Button variant="ghost" size="sm" className="hover:bg-white/5">
             Sign In
@@ -477,11 +506,7 @@ export default function TrustScorePage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-white/5 py-8 bg-background/50 backdrop-blur-xl">
-        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          <p>© 2025 TrustScore. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
