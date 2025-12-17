@@ -177,18 +177,18 @@ export default function TrustScorePage() {
             </div>
             <nav className="hidden md:flex items-center gap-4 text-sm">
               <a
-                href="#pricing"
+                href="#features"
                 className="text-muted-foreground hover:text-white transition-colors flex items-center gap-1"
               >
                 <Sparkles className="h-4 w-4" />
-                Pricing
+                Features
               </a>
               <a
-                href="#leaderboard"
+                href="#pricing"
                 className="text-muted-foreground hover:text-white transition-colors flex items-center gap-1"
               >
-                <Trophy className="h-4 w-4" />
-                Leaderboard
+                <Award className="h-4 w-4" />
+                Pricing
               </a>
               <a
                 href="#faq"
@@ -374,29 +374,81 @@ export default function TrustScorePage() {
               )}
             </section>
 
-            {/* Features Grid */}
-            <section className="py-20">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+            {/* Features Section */}
+            <section id="features" className="py-24 relative scroll-mt-20">
+              {/* Background Effects */}
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-emerald-500/5 to-transparent pointer-events-none" />
+              <div className="absolute top-1/2 left-1/4 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none animate-pulse" />
+              <div
+                className="absolute top-1/3 right-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl pointer-events-none animate-pulse"
+                style={{ animationDelay: "1s" }}
+              />
+
+              <div className="text-center mb-16 relative">
+                <Badge
+                  variant="secondary"
+                  className="mb-6 bg-gradient-to-r from-emerald-500/20 to-purple-500/20 border-emerald-500/30 text-emerald-400 animate-pulse-glow"
+                >
+                  <Sparkles className="h-3 w-3 mr-2" />
+                  Everything You Need
+                </Badge>
+                <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white via-white to-emerald-200 bg-clip-text text-transparent">
+                  Powerful Features for
+                  <br />
+                  <span className="bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text">
+                    Trusted Websites
+                  </span>
+                </h2>
+                <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                  Everything you need to analyze, optimize, and prove your
+                  website's trustworthiness.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto relative">
                 {features.map((feature, index) => (
-                  <Card
+                  <div
                     key={index}
-                    className="group p-6 bg-white/5 backdrop-blur-sm border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-500/5"
+                    className="group relative animate-slide-up"
+                    style={{ animationDelay: `${index * 0.1}s` }}
                   >
-                    <div className="flex items-start gap-4">
-                      <div className="p-3 rounded-xl bg-gradient-to-br from-emerald-500/20 to-emerald-600/10 group-hover:from-emerald-500/30 group-hover:to-emerald-600/20 transition-colors">
-                        <feature.icon className="h-6 w-6 text-emerald-400" />
+                    <Card className="p-8 h-full bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border-white/10 hover:border-emerald-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-emerald-500/10 overflow-hidden">
+                      {/* Hover glow effect */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/0 via-emerald-500/5 to-emerald-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                      <div className="relative flex items-start gap-5">
+                        <div
+                          className="p-4 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-emerald-600/10 group-hover:from-emerald-500/30 group-hover:to-emerald-600/20 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 animate-float"
+                          style={{ animationDelay: `${index * 0.5}s` }}
+                        >
+                          <feature.icon className="h-7 w-7 text-emerald-400 group-hover:text-emerald-300 transition-colors" />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="text-xl font-bold mb-3 text-white group-hover:text-emerald-300 transition-colors">
+                            {feature.title}
+                          </h3>
+                          <p className="text-muted-foreground leading-relaxed">
+                            {feature.description}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="text-lg font-semibold mb-2 text-white">
-                          {feature.title}
-                        </h3>
-                        <p className="text-muted-foreground text-sm leading-relaxed">
-                          {feature.description}
-                        </p>
-                      </div>
-                    </div>
-                  </Card>
+                    </Card>
+                  </div>
                 ))}
+              </div>
+
+              {/* CTA Button */}
+              <div className="text-center mt-16 relative">
+                <a
+                  href="#pricing"
+                  className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold rounded-2xl shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-all duration-300 hover:scale-105 group"
+                >
+                  <span>Get Started Now</span>
+                  <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </a>
+                <p className="mt-4 text-sm text-muted-foreground">
+                  One-time payment • Lifetime access • 30-day guarantee
+                </p>
               </div>
             </section>
 
