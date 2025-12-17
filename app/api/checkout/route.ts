@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
           price_data: {
             currency: "usd",
             product_data: {
-              name: "TrustScore Lifetime Certification",
+              name: "VerifiedTrustScore Lifetime Certification",
               description: `Verified badge & dofollow backlink for ${cleanDomain}`,
             },
             unit_amount: CERTIFICATION_PRICE,
@@ -56,6 +56,10 @@ export async function POST(request: NextRequest) {
         accessibility_score: String(scores.accessibility),
         best_practices_score: String(scores.bestPractices),
         metrics: JSON.stringify(metrics || {}),
+      },
+      // Dark theme to match website
+      appearance: {
+        theme: "night",
       },
       success_url: `${request.headers.get(
         "origin"
