@@ -71,30 +71,36 @@ export default function TrustScorePage() {
   // Animate loading progress (simulated - API doesn't provide real progress)
   useEffect(() => {
     if (isPending) {
+      // Immediately reset to 0
       setLoadingProgress(0);
-      const interval = setInterval(() => {
-        setLoadingProgress((prev) => {
-          // Fast until 70%, then slow down, very slow after 85%
-          if (prev >= 98) return 98; // Never reach 100 until complete
-          if (prev >= 85) {
-            // Very slow progress after 85%
-            return prev + 0.3;
-          }
-          if (prev >= 70) {
-            // Slower progress 70-85%
-            return prev + Math.random() * 2;
-          }
-          // Fast progress 0-70%
-          const remaining = 70 - prev;
-          const increment = Math.max(2, remaining * 0.1 + Math.random() * 5);
-          return Math.min(70, prev + increment);
-        });
-      }, 400);
-      return () => clearInterval(interval);
-    } else {
-      // Smoothly complete to 100%
-      setLoadingProgress(100);
+
+      // Start animation after a tiny delay to ensure 0 is rendered
+      const startDelay = setTimeout(() => {
+        const interval = setInterval(() => {
+          setLoadingProgress((prev) => {
+            // Fast until 70%, then slow down, very slow after 85%
+            if (prev >= 98) return 98; // Never reach 100 until complete
+            if (prev >= 85) {
+              // Very slow progress after 85%
+              return prev + 0.3;
+            }
+            if (prev >= 70) {
+              // Slower progress 70-85%
+              return prev + Math.random() * 2;
+            }
+            // Fast progress 0-70%
+            const remaining = 70 - prev;
+            const increment = Math.max(2, remaining * 0.1 + Math.random() * 5);
+            return Math.min(70, prev + increment);
+          });
+        }, 400);
+
+        return () => clearInterval(interval);
+      }, 50);
+
+      return () => clearTimeout(startDelay);
     }
+    // Don't set to 100 when complete - let it disappear naturally
   }, [isPending]);
 
   const handleAnalyze = () => {
