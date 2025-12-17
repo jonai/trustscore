@@ -751,7 +751,7 @@ export default function TrustScorePage() {
             </section>
 
             {/* FAQ Section */}
-            <section id="faq" className="py-20 scroll-mt-16">
+            <section id="faq" className="py-20 scroll-mt-8">
               <div className="text-center mb-12">
                 <Badge
                   variant="secondary"
