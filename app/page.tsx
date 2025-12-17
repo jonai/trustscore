@@ -27,11 +27,37 @@ import {
   Trophy,
   Wrench,
   HelpCircle,
+  ExternalLink,
 } from "lucide-react";
 import { analyzeWebsite, type PageSpeedResult } from "./actions/analyze";
 import { ResultsSection } from "@/components/report/results-section";
 import { Footer } from "@/components/footer";
 import { FeaturesSection } from "@/components/features-section";
+
+interface CertifiedWebsite {
+  id: string;
+  domain: string;
+  current_score: number;
+  performance_score: number;
+  seo_score: number;
+  accessibility_score: number;
+  best_practices_score: number;
+  certified_date: string;
+}
+
+function getScoreColor(score: number) {
+  if (score >= 90) return "text-emerald-400";
+  if (score >= 70) return "text-amber-400";
+  if (score >= 50) return "text-orange-400";
+  return "text-red-400";
+}
+
+function getRankBadge(rank: number) {
+  if (rank === 1) return "🥇";
+  if (rank === 2) return "🥈";
+  if (rank === 3) return "🥉";
+  return `#${rank}`;
+}
 
 export default function TrustScorePage() {
   const [website, setWebsite] = useState("");
@@ -155,6 +181,24 @@ export default function TrustScorePage() {
     fetchRecentAnalyses();
   }, []);
 
+  const [leaderboard, setLeaderboard] = useState<CertifiedWebsite[]>([]);
+
+  // Fetch leaderboard on mount
+  useEffect(() => {
+    async function fetchLeaderboard() {
+      try {
+        const response = await fetch("/api/home-leaderboard");
+        const data = await response.json();
+        if (data.websites && data.websites.length > 0) {
+          setLeaderboard(data.websites);
+        }
+      } catch (error) {
+        console.error("Failed to fetch leaderboard:", error);
+      }
+    }
+    fetchLeaderboard();
+  }, []);
+
   const pricingFeatures = [
     "Unlimited Re-scans for 1 Domain",
     "PageSpeed & SEO reports",
@@ -168,53 +212,41 @@ export default function TrustScorePage() {
     <div className="min-h-screen bg-background text-foreground">
       {/* Header */}
       <header className="border-b border-border/50 backdrop-blur-xl bg-background/80 sticky top-0 z-40">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <div
-              className="flex items-center gap-2 cursor-pointer group"
-              onClick={handleReset}
-            >
-              <div className="p-1.5 rounded-lg bg-gradient-to-br from-emerald-500/20 to-emerald-600/10 group-hover:from-emerald-500/30 group-hover:to-emerald-600/20 transition-colors">
-                <Award className="h-5 w-5 text-emerald-500" />
-              </div>
-              <span className="text-lg font-semibold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
-                VerifiedTrustScore
-              </span>
+        <div className="container mx-auto px-4 py-4 flex items-center justify-center relative">
+          <div
+            className="flex items-center gap-2 cursor-pointer group absolute left-4"
+            onClick={handleReset}
+          >
+            <div className="p-1.5 rounded-lg bg-gradient-to-br from-emerald-500/20 to-emerald-600/10 group-hover:from-emerald-500/30 group-hover:to-emerald-600/20 transition-colors">
+              <Award className="h-5 w-5 text-emerald-500" />
             </div>
-            <nav className="hidden md:flex items-center gap-4 text-sm">
-              <a
-                href="#features"
-                className="text-muted-foreground hover:text-white transition-colors flex items-center gap-1"
-              >
-                <Sparkles className="h-4 w-4" />
-                Features
-              </a>
-              <a
-                href="#pricing"
-                className="text-muted-foreground hover:text-white transition-colors flex items-center gap-1"
-              >
-                <Award className="h-4 w-4" />
-                Pricing
-              </a>
-              <a
-                href="#faq"
-                className="text-muted-foreground hover:text-white transition-colors flex items-center gap-1"
-              >
-                <HelpCircle className="h-4 w-4" />
-                FAQ
-              </a>
-              <Link
-                href="/tools"
-                className="text-muted-foreground hover:text-white transition-colors flex items-center gap-1"
-              >
-                <Wrench className="h-4 w-4" />
-                Tools
-              </Link>
-            </nav>
+            <span className="text-lg font-semibold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
+              VerifiedTrustScore
+            </span>
           </div>
-          <Button variant="ghost" size="sm" className="hover:bg-white/5">
-            Sign In
-          </Button>
+          <nav className="hidden md:flex items-center gap-6 text-sm">
+            <a
+              href="#features"
+              className="text-muted-foreground hover:text-white transition-colors flex items-center gap-1"
+            >
+              <Sparkles className="h-4 w-4" />
+              Features
+            </a>
+            <a
+              href="#pricing"
+              className="text-muted-foreground hover:text-white transition-colors flex items-center gap-1"
+            >
+              <Award className="h-4 w-4" />
+              Pricing
+            </a>
+            <a
+              href="#faq"
+              className="text-muted-foreground hover:text-white transition-colors flex items-center gap-1"
+            >
+              <HelpCircle className="h-4 w-4" />
+              FAQ
+            </a>
+          </nav>
         </div>
       </header>
 
@@ -547,47 +579,140 @@ export default function TrustScorePage() {
                 </p>
               </div>
 
-              <div className="max-w-2xl mx-auto space-y-3">
-                {recentAnalyses.slice(0, 5).map((site, index) => (
+              <div className="max-w-4xl mx-auto space-y-3">
+                {(leaderboard.length > 0
+                  ? leaderboard
+                  : recentAnalyses.slice(0, 5).map((s, i) => ({
+                      id: String(i),
+                      domain: s.domain,
+                      current_score: s.score,
+                      performance_score: s.score,
+                      seo_score: s.score,
+                      accessibility_score: s.score,
+                      best_practices_score: s.score,
+                      certified_date: new Date().toISOString(),
+                    }))
+                ).map((site, index) => (
                   <Link
-                    key={site.domain}
+                    key={site.id || site.domain}
                     href={`/certified/${site.domain}`}
-                    className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all group"
+                    className="block group"
                   >
-                    <div
-                      className={`w-10 h-10 rounded-lg flex items-center justify-center font-bold ${
-                        index === 0
-                          ? "bg-gradient-to-br from-amber-400 to-amber-600 text-black"
-                          : index === 1
-                          ? "bg-gradient-to-br from-gray-300 to-gray-400 text-black"
-                          : index === 2
-                          ? "bg-gradient-to-br from-amber-600 to-amber-800 text-white"
-                          : "bg-white/10 text-white/60"
+                    <Card
+                      className={`p-4 bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20 transition-all ${
+                        index < 3 ? "ring-1 ring-amber-500/30" : ""
                       }`}
                     >
-                      {index < 3 ? ["🥇", "🥈", "🥉"][index] : `#${index + 1}`}
-                    </div>
-                    <img
-                      src={`https://www.google.com/s2/favicons?domain=${site.domain}&sz=32`}
-                      alt=""
-                      className="w-8 h-8 rounded bg-white/10"
-                    />
-                    <span className="flex-1 font-medium text-white group-hover:text-emerald-400 transition-colors">
-                      {site.domain}
-                    </span>
-                    <span
-                      className={`font-bold ${
-                        site.score >= 90
-                          ? "text-emerald-400"
-                          : site.score >= 70
-                          ? "text-amber-400"
-                          : "text-red-400"
-                      }`}
-                    >
-                      {site.score}
-                    </span>
+                      <div className="flex items-center gap-4">
+                        {/* Rank */}
+                        <div
+                          className={`w-12 h-12 rounded-xl flex items-center justify-center text-lg font-bold ${
+                            index === 0
+                              ? "bg-gradient-to-br from-amber-400 to-amber-600 text-black"
+                              : index === 1
+                              ? "bg-gradient-to-br from-gray-300 to-gray-400 text-black"
+                              : index === 2
+                              ? "bg-gradient-to-br from-amber-600 to-amber-800 text-white"
+                              : "bg-white/10 text-white/60"
+                          }`}
+                        >
+                          {getRankBadge(index + 1)}
+                        </div>
+
+                        {/* Favicon + Domain */}
+                        <div className="flex items-center gap-3 flex-1 min-w-0">
+                          <img
+                            src={`https://www.google.com/s2/favicons?domain=${site.domain}&sz=32`}
+                            alt=""
+                            className="w-8 h-8 rounded-lg bg-white/10"
+                          />
+                          <div className="min-w-0">
+                            <div className="font-semibold text-white truncate group-hover:text-emerald-400 transition-colors">
+                              {site.domain}
+                            </div>
+                            <div className="text-xs text-muted-foreground">
+                              Certified{" "}
+                              {new Date(site.certified_date).toLocaleDateString(
+                                "en-US",
+                                { month: "short", day: "numeric" }
+                              )}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Category Scores */}
+                        <div className="hidden md:flex items-center gap-4 text-xs">
+                          <div className="text-center">
+                            <div
+                              className={`font-bold ${getScoreColor(
+                                site.performance_score
+                              )}`}
+                            >
+                              {site.performance_score}
+                            </div>
+                            <div className="text-muted-foreground">Perf</div>
+                          </div>
+                          <div className="text-center">
+                            <div
+                              className={`font-bold ${getScoreColor(
+                                site.seo_score
+                              )}`}
+                            >
+                              {site.seo_score}
+                            </div>
+                            <div className="text-muted-foreground">SEO</div>
+                          </div>
+                          <div className="text-center">
+                            <div
+                              className={`font-bold ${getScoreColor(
+                                site.accessibility_score
+                              )}`}
+                            >
+                              {site.accessibility_score}
+                            </div>
+                            <div className="text-muted-foreground">A11y</div>
+                          </div>
+                          <div className="text-center">
+                            <div
+                              className={`font-bold ${getScoreColor(
+                                site.best_practices_score
+                              )}`}
+                            >
+                              {site.best_practices_score}
+                            </div>
+                            <div className="text-muted-foreground">BP</div>
+                          </div>
+                        </div>
+
+                        {/* Overall Score */}
+                        <div className="flex items-center gap-2">
+                          <div
+                            className={`w-12 h-12 rounded-xl flex items-center justify-center font-bold text-lg ${
+                              site.current_score >= 90
+                                ? "bg-emerald-500/20 text-emerald-400"
+                                : site.current_score >= 70
+                                ? "bg-amber-500/20 text-amber-400"
+                                : "bg-red-500/20 text-red-400"
+                            }`}
+                          >
+                            {site.current_score}
+                          </div>
+                          <ExternalLink className="h-4 w-4 text-white/30 group-hover:text-white/60 transition-colors" />
+                        </div>
+                      </div>
+                    </Card>
                   </Link>
                 ))}
+
+                <div className="text-center mt-6">
+                  <Link
+                    href="/leaderboard"
+                    className="text-sm text-muted-foreground hover:text-white transition-colors inline-flex items-center gap-1"
+                  >
+                    View Full Leaderboard
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </div>
               </div>
             </section>
 
@@ -614,23 +739,43 @@ export default function TrustScorePage() {
                   {[
                     {
                       q: "What is VerifiedTrustScore?",
-                      a: "VerifiedTrustScore analyzes your website's performance, SEO, accessibility, and security. Get a detailed report and claim your verified badge with a dofollow backlink.",
+                      a: "VerifiedTrustScore is a website analysis tool that evaluates your site's performance, SEO, accessibility, security, and overall quality. We provide detailed reports and offer lifetime certification with a dofollow backlink.",
                     },
                     {
-                      q: "What do I get with the $35 certification?",
-                      a: "You get a lifetime verified badge, a public certification page with a dofollow backlink, daily automated monitoring, and a listing in our certified directory.",
+                      q: "How is the score calculated?",
+                      a: "Your overall score is the average of four key metrics: Performance, SEO, Accessibility, and Best Practices. Each category is scored from 0-100 using Google's PageSpeed Insights API combined with our own HTML and security analysis.",
+                    },
+                    {
+                      q: "What do I get with certification?",
+                      a: "With the $35 lifetime certification, you get: a verified trust badge for your website, a public certification page with a dofollow backlink, daily automated monitoring, and a listing in our certified websites directory.",
                     },
                     {
                       q: "Is the backlink really dofollow?",
-                      a: "Yes! Unlike most directories that use nofollow, your certification page includes a genuine dofollow link to boost your domain authority.",
+                      a: "Yes! Unlike many directories that use nofollow links, your certification page includes a dofollow link to your website, which can help improve your domain authority and SEO.",
                     },
                     {
                       q: "How often is my score updated?",
-                      a: "Certified websites are automatically re-audited daily. Your public page always shows your current score.",
+                      a: "Certified websites are automatically re-audited daily. Your public certification page always shows your current score and historical trends.",
+                    },
+                    {
+                      q: "Can I analyze any website?",
+                      a: "You can analyze any publicly accessible website for free. However, certification is only available for websites you own or have permission to certify.",
+                    },
+                    {
+                      q: "What payment methods do you accept?",
+                      a: "We accept all major credit cards, debit cards, and Apple Pay through our secure payment processor, Stripe.",
                     },
                     {
                       q: "Do you offer refunds?",
-                      a: "Yes! We offer a 30-day money-back guarantee. Not satisfied? Contact us for a full refund.",
+                      a: "Yes, we offer a 30-day money-back guarantee. If you're not satisfied with your certification, contact us for a full refund.",
+                    },
+                    {
+                      q: "Are the free tools really free?",
+                      a: "Yes! Our Open Graph Preview, Security Headers Checker, and Meta Tag Checker tools are 100% free to use with no login required.",
+                    },
+                    {
+                      q: "How do I embed the badge on my website?",
+                      a: "After certification, visit your badge page at /certified/[your-domain]/badge to get HTML and Markdown snippets you can copy and paste into your website.",
                     },
                   ].map((faq, index) => (
                     <AccordionItem

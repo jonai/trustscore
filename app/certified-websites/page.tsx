@@ -26,7 +26,7 @@ export default async function CertifiedWebsitesPage() {
               <Shield className="h-5 w-5 text-white" />
             </div>
             <span className="bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
-              TrustScore
+              VerifiedTrustScore
             </span>
           </Link>
           <Link
@@ -53,7 +53,7 @@ export default async function CertifiedWebsitesPage() {
           </h1>
 
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            These websites have been verified by TrustScore for quality,
+            These websites have been verified by VerifiedTrustScore for quality,
             security, and trustworthiness. Each website receives a dofollow
             backlink as part of their verification.
           </p>
@@ -169,7 +169,7 @@ export default async function CertifiedWebsitesPage() {
       {/* Footer */}
       <footer className="border-t border-white/10 py-8 mt-12">
         <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} TrustScore. All rights reserved.
+          © {new Date().getFullYear()} VerifiedTrustScore. All rights reserved.
         </div>
       </footer>
     </main>

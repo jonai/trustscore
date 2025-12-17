@@ -125,26 +125,9 @@ export function Footer() {
         {/* Bottom */}
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} TrustScore. All rights reserved.
+            © {new Date().getFullYear()} VerifiedTrustScore. All rights
+            reserved.
           </p>
-          <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <a
-              href="https://twitter.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-white transition-colors"
-            >
-              Twitter
-            </a>
-            <a
-              href="https://github.com/jonai/trustscore"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-white transition-colors"
-            >
-              GitHub
-            </a>
-          </div>
         </div>
       </div>
     </footer>
