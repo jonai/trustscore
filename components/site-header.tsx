@@ -18,7 +18,7 @@ export function SiteHeader({
   return (
     <header className="border-b border-white/10 bg-black/50 backdrop-blur-xl sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <SiteLogo size="md" />
+        <SiteLogo size="lg" />
         {showBackLink && (
           <Link
             href={backLinkHref}

@@ -34,6 +34,7 @@ import { analyzeWebsite, type PageSpeedResult } from "./actions/analyze";
 import { ResultsSection } from "@/components/report/results-section";
 import { Footer } from "@/components/footer";
 import { FeaturesSection } from "@/components/features-section";
+import { SiteLogo } from "@/components/site-logo";
 
 interface CertifiedWebsite {
   id: string;
@@ -227,49 +228,8 @@ export default function TrustScorePage() {
       {/* Header */}
       <header className="border-b border-border/50 backdrop-blur-xl bg-background/80 sticky top-0 z-40">
         <div className="container mx-auto px-4 py-6 flex items-center justify-center relative">
-          <div
-            className="flex items-center gap-2 cursor-pointer group absolute left-4"
-            onClick={handleReset}
-          >
-            {/* New Logo: 92% ring with lightning bolt and glow */}
-            <div className="relative">
-              <div className="absolute inset-0 bg-emerald-500/30 rounded-full blur-md group-hover:bg-emerald-500/40 transition-colors" />
-              <svg className="relative w-10 h-10" viewBox="0 0 32 32">
-                {/* Background ring */}
-                <circle
-                  cx="16"
-                  cy="16"
-                  r="13"
-                  stroke="currentColor"
-                  strokeWidth="3"
-                  fill="none"
-                  className="text-white/10"
-                />
-                {/* Progress ring at 92% */}
-                <circle
-                  cx="16"
-                  cy="16"
-                  r="13"
-                  stroke="#10b981"
-                  strokeWidth="3"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeDasharray={2 * Math.PI * 13 * 0.92}
-                  strokeDashoffset={0}
-                  className="-rotate-90 origin-center"
-                  style={{ transformOrigin: "center" }}
-                />
-                {/* Lightning bolt */}
-                <path
-                  d="M17 7L12 16h4l-1 9 5-10h-4l1-8z"
-                  fill="white"
-                  className="drop-shadow-sm"
-                />
-              </svg>
-            </div>
-            <span className="text-xl font-semibold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
-              VerifiedTrustScore
-            </span>
+          <div onClick={handleReset} className="absolute left-4">
+            <SiteLogo size="lg" />
           </div>
           <nav className="hidden md:flex items-center gap-8 text-sm">
             <a
@@ -456,8 +416,8 @@ export default function TrustScorePage() {
                         steps.length - 1
                       );
                       return (
-                        <p className="text-emerald-400 text-sm font-medium">
-                          <span className="inline-block w-1.5 h-1.5 bg-emerald-400 rounded-full mr-2 animate-pulse" />
+                        <p className="text-emerald-400 text-sm font-medium flex items-center gap-2">
+                          <Loader2 className="h-3.5 w-3.5 animate-spin" />
                           {steps[currentStepIndex]}
                         </p>
                       );

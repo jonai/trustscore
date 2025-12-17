@@ -64,9 +64,7 @@ export function SiteLogo({
         </svg>
       </div>
       {showName && (
-        <span
-          className={`font-semibold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent ${textClasses[size]}`}
-        >
+        <span className={`font-semibold text-white ${textClasses[size]}`}>
           VerifiedTrustScore
         </span>
       )}
