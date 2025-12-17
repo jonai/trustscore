@@ -1,20 +1,14 @@
 import Link from "next/link";
-import { Shield, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Footer } from "@/components/footer";
+import { SiteLogo } from "@/components/site-logo";
 
 export default function TermsPage() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-black via-gray-950 to-black">
       <header className="border-b border-white/10 bg-black/50 backdrop-blur-xl sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 text-xl font-bold">
-            <div className="p-2 rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-600">
-              <Shield className="h-5 w-5 text-white" />
-            </div>
-            <span className="bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
-              TrustScore
-            </span>
-          </Link>
+          <SiteLogo size="md" />
           <Link
             href="/"
             className="text-sm text-white/60 hover:text-white transition-colors flex items-center gap-1"
@@ -43,9 +37,9 @@ export default function TermsPage() {
               1. Acceptance of Terms
             </h2>
             <p className="text-muted-foreground">
-              By accessing or using TrustScore, you agree to be bound by these
-              Terms of Service. If you do not agree to these terms, please do
-              not use our service.
+              By accessing or using VerifiedTrustScore, you agree to be bound by
+              these Terms of Service. If you do not agree to these terms, please
+              do not use our service.
             </p>
           </section>
 
@@ -54,7 +48,7 @@ export default function TermsPage() {
               2. Description of Service
             </h2>
             <p className="text-muted-foreground">
-              TrustScore provides website analysis services, including
+              VerifiedTrustScore provides website analysis services, including
               performance, SEO, accessibility, and security assessments. Paid
               services include certification badges and dofollow backlinks.
             </p>
@@ -92,9 +86,9 @@ export default function TermsPage() {
               5. User Conduct
             </h2>
             <p className="text-muted-foreground">
-              You agree not to use TrustScore for any illegal purposes or to
-              analyze websites you do not own or have permission to analyze for
-              certification purposes.
+              You agree not to use VerifiedTrustScore for any illegal purposes
+              or to analyze websites you do not own or have permission to
+              analyze for certification purposes.
             </p>
           </section>
 
@@ -103,9 +97,9 @@ export default function TermsPage() {
               6. Limitation of Liability
             </h2>
             <p className="text-muted-foreground">
-              TrustScore is provided "as is" without warranties of any kind. We
-              are not responsible for any damages arising from the use of our
-              service or reliance on the scores provided.
+              VerifiedTrustScore is provided "as is" without warranties of any
+              kind. We are not responsible for any damages arising from the use
+              of our service or reliance on the scores provided.
             </p>
           </section>
 

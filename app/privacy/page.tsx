@@ -1,20 +1,14 @@
 import Link from "next/link";
-import { Shield, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Footer } from "@/components/footer";
+import { SiteLogo } from "@/components/site-logo";
 
 export default function PrivacyPage() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-black via-gray-950 to-black">
       <header className="border-b border-white/10 bg-black/50 backdrop-blur-xl sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 text-xl font-bold">
-            <div className="p-2 rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-600">
-              <Shield className="h-5 w-5 text-white" />
-            </div>
-            <span className="bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
-              TrustScore
-            </span>
-          </Link>
+          <SiteLogo size="md" />
           <Link
             href="/"
             className="text-sm text-white/60 hover:text-white transition-colors flex items-center gap-1"

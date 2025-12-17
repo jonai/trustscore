@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { Shield, ArrowLeft, ChevronDown } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Footer } from "@/components/footer";
+import { SiteLogo } from "@/components/site-logo";
 import {
   Accordion,
   AccordionContent,
@@ -10,9 +11,9 @@ import {
 
 const faqs = [
   {
-    question: "What is TrustScore?",
+    question: "What is VerifiedTrustScore?",
     answer:
-      "TrustScore is a website analysis tool that evaluates your site's performance, SEO, accessibility, security, and overall quality. We provide detailed reports and offer lifetime certification with a dofollow backlink.",
+      "VerifiedTrustScore is a website analysis tool that evaluates your site's performance, SEO, accessibility, security, and overall quality. We provide detailed reports and offer lifetime certification with a dofollow backlink.",
   },
   {
     question: "How is the score calculated?",
@@ -66,14 +67,7 @@ export default function FAQPage() {
     <main className="min-h-screen bg-gradient-to-b from-black via-gray-950 to-black">
       <header className="border-b border-white/10 bg-black/50 backdrop-blur-xl sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 text-xl font-bold">
-            <div className="p-2 rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-600">
-              <Shield className="h-5 w-5 text-white" />
-            </div>
-            <span className="bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
-              TrustScore
-            </span>
-          </Link>
+          <SiteLogo size="md" />
           <Link
             href="/"
             className="text-sm text-white/60 hover:text-white transition-colors flex items-center gap-1"
@@ -90,8 +84,8 @@ export default function FAQPage() {
             Frequently Asked Questions
           </h1>
           <p className="text-muted-foreground">
-            Everything you need to know about TrustScore and our certification
-            service.
+            Everything you need to know about VerifiedTrustScore and our
+            certification service.
           </p>
         </div>
 
