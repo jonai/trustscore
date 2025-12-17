@@ -91,7 +91,8 @@ export default function TrustScorePage() {
     },
   ];
 
-  const recentAnalyses = [
+  // Fallback data while loading or if no real data
+  const fallbackAnalyses = [
     {
       domain: "stripe.com",
       score: 98,
@@ -118,6 +119,24 @@ export default function TrustScorePage() {
     },
     { domain: "notion.so", score: 87, time: "15m ago", color: "bg-yellow-500" },
   ];
+
+  const [recentAnalyses, setRecentAnalyses] = useState(fallbackAnalyses);
+
+  // Fetch real recent analyses on mount
+  useEffect(() => {
+    async function fetchRecentAnalyses() {
+      try {
+        const response = await fetch("/api/recent-analyses");
+        const data = await response.json();
+        if (data.analyses && data.analyses.length > 0) {
+          setRecentAnalyses(data.analyses);
+        }
+      } catch (error) {
+        console.error("Failed to fetch recent analyses:", error);
+      }
+    }
+    fetchRecentAnalyses();
+  }, []);
 
   const pricingFeatures = [
     "Unlimited website analyses",
@@ -161,12 +180,56 @@ export default function TrustScorePage() {
               {/* Background decoration */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
 
+              {/* Badge Preview */}
+              <div className="mb-10 flex justify-center">
+                <div className="inline-flex items-center gap-4 px-6 py-4 rounded-2xl bg-black/40 border border-white/10 backdrop-blur-xl shadow-2xl">
+                  {/* Score Circle */}
+                  <div className="relative">
+                    <svg className="w-16 h-16 transform -rotate-90">
+                      <circle
+                        cx="32"
+                        cy="32"
+                        r="26"
+                        stroke="currentColor"
+                        strokeWidth="5"
+                        fill="none"
+                        className="text-white/10"
+                      />
+                      <circle
+                        cx="32"
+                        cy="32"
+                        r="26"
+                        stroke="#10b981"
+                        strokeWidth="5"
+                        fill="none"
+                        strokeDasharray={2 * Math.PI * 26}
+                        strokeDashoffset={2 * Math.PI * 26 * 0.08}
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="text-xl font-bold text-white">92</span>
+                    </div>
+                  </div>
+
+                  {/* Text */}
+                  <div className="text-left">
+                    <div className="text-sm text-white/60">
+                      verifiedtrustscore.com
+                    </div>
+                    <div className="text-lg font-semibold text-white">
+                      Verified Website Score
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <Badge
                 variant="secondary"
                 className="mb-6 bg-white/5 border-white/10 backdrop-blur-sm"
               >
                 <span className="text-emerald-400 animate-pulse">●</span>
-                <span className="ml-2">Analyze your website in seconds</span>
+                <span className="ml-2">Get your badge + dofollow backlink</span>
               </Badge>
 
               <h1 className="text-5xl md:text-7xl font-bold mb-6 text-balance bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent">
