@@ -366,7 +366,7 @@ export default function TrustScorePage() {
                   />
                   <Button
                     size="lg"
-                    className="h-14 px-8 bg-white hover:bg-white/90 text-gray-900 font-bold transition-all duration-300 relative overflow-hidden"
+                    className="h-14 px-8 bg-white hover:bg-gray-100 text-gray-900 font-bold shadow-lg shadow-white/20 hover:shadow-white/30 transition-all duration-300 relative overflow-hidden"
                     onClick={() => {
                       if (!website.trim()) {
                         const input = document.querySelector(
@@ -433,19 +433,23 @@ export default function TrustScorePage() {
               {!isPending && (
                 <div className="flex items-center justify-center gap-3 animate-in fade-in duration-1000">
                   <div className="flex -space-x-2">
-                    {[1, 2, 3, 4, 5].map((i) => (
-                      <Avatar
-                        key={i}
-                        className="border-2 border-background ring-2 ring-white/10"
-                      >
-                        <AvatarFallback className="bg-gradient-to-br from-gray-600 to-gray-700 text-white text-xs font-medium">
-                          {String.fromCharCode(64 + i)}
+                    {[
+                      { letter: "A", colors: "from-blue-400 to-blue-600" },
+                      { letter: "B", colors: "from-purple-400 to-purple-600" },
+                      { letter: "C", colors: "from-orange-400 to-orange-600" },
+                      { letter: "D", colors: "from-pink-400 to-pink-600" },
+                      { letter: "E", colors: "from-cyan-400 to-cyan-600" },
+                    ].map((user, i) => (
+                      <Avatar key={i} className="border-2 border-background">
+                        <AvatarFallback
+                          className={`bg-gradient-to-br ${user.colors} text-white text-xs font-medium`}
+                        >
+                          {user.letter}
                         </AvatarFallback>
                       </Avatar>
                     ))}
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    <span className="text-white/60 font-medium mr-1">●</span>
                     Join the Beta Program & Get Verified
                   </p>
                 </div>
