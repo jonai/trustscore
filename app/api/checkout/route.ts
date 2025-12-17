@@ -57,10 +57,6 @@ export async function POST(request: NextRequest) {
         best_practices_score: String(scores.bestPractices),
         metrics: JSON.stringify(metrics || {}),
       },
-      // Dark theme to match website
-      appearance: {
-        theme: "night",
-      },
       success_url: `${request.headers.get(
         "origin"
       )}/certified/${cleanDomain}?success=true`,
