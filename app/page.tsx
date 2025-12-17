@@ -325,7 +325,7 @@ export default function TrustScorePage() {
                 <span>Get your badge + dofollow backlink</span>
               </div>
 
-              <h1 className="text-5xl md:text-7xl font-bold mb-6 text-balance bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent">
+              <h1 className="text-5xl md:text-7xl font-bold mb-6 text-balance bg-gradient-to-b from-white to-white/80 bg-clip-text text-transparent">
                 Make your website trustworthy
               </h1>
 
