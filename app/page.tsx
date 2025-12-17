@@ -272,7 +272,7 @@ export default function TrustScorePage() {
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
 
               {/* Badge Preview */}
-              <div className="mb-10 flex justify-center">
+              <div className="mb-6 flex justify-center">
                 <div className="inline-flex items-center gap-4 px-6 py-4 rounded-2xl bg-black/40 border border-white/10 backdrop-blur-xl shadow-2xl">
                   {/* Score Circle */}
                   <div className="relative">
@@ -316,7 +316,7 @@ export default function TrustScorePage() {
               </div>
 
               {/* Get your badge text - below badge */}
-              <div className="flex items-center justify-center gap-2 text-sm text-white/60 mt-1 mb-12">
+              <div className="flex items-center justify-center gap-2 text-sm text-white/60 -mt-1 mb-12">
                 <span className="text-emerald-400">✓</span>
                 <span>Get your badge + dofollow backlink</span>
               </div>
