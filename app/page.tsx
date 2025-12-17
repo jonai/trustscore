@@ -313,12 +313,12 @@ export default function TrustScorePage() {
                     </div>
                   </div>
                 </div>
+              </div>
 
-                {/* Get your badge text - attached to badge */}
-                <div className="flex items-center gap-2 text-sm text-white/60 mt-2">
-                  <span className="text-emerald-400">✓</span>
-                  <span>Get your badge + dofollow backlink</span>
-                </div>
+              {/* Get your badge text - below badge */}
+              <div className="flex items-center justify-center gap-2 text-sm text-white/60 mt-3 mb-8">
+                <span className="text-emerald-400">✓</span>
+                <span>Get your badge + dofollow backlink</span>
               </div>
 
               <h1 className="text-5xl md:text-7xl font-bold mb-6 text-balance bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent">
@@ -414,9 +414,10 @@ export default function TrustScorePage() {
                         "Scanning Security",
                         "Testing Accessibility",
                         "Measuring Speed",
+                        "Calculating Global Score",
                       ];
                       const currentStepIndex = Math.min(
-                        Math.floor(loadingProgress / 20),
+                        Math.floor(loadingProgress / (100 / steps.length)),
                         steps.length - 1
                       );
                       return (
