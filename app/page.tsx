@@ -406,58 +406,78 @@ export default function TrustScorePage() {
                 </div>
               )}
 
-              {/* Loading State with Animated Steps */}
+              {/* Loading State - Elegant Single Animation */}
               {isPending && (
-                <div className="max-w-xl mx-auto mb-8 p-4 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 animate-in fade-in slide-in-from-bottom-4">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="relative">
-                      <div className="w-10 h-10 rounded-full border-2 border-emerald-500/30 border-t-emerald-500 animate-spin" />
-                      <Search className="absolute inset-0 m-auto h-4 w-4 text-emerald-400" />
+                <div className="max-w-2xl mx-auto mb-4 p-4 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 animate-in fade-in slide-in-from-bottom-4">
+                  <div className="flex items-center gap-4">
+                    {/* Animated Progress Ring */}
+                    <div className="relative flex-shrink-0">
+                      <svg className="w-14 h-14 -rotate-90" viewBox="0 0 56 56">
+                        {/* Background ring */}
+                        <circle
+                          cx="28"
+                          cy="28"
+                          r="24"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                          fill="none"
+                          className="text-white/10"
+                        />
+                        {/* Progress ring */}
+                        <circle
+                          cx="28"
+                          cy="28"
+                          r="24"
+                          stroke="#10b981"
+                          strokeWidth="4"
+                          fill="none"
+                          strokeLinecap="round"
+                          strokeDasharray={2 * Math.PI * 24}
+                          strokeDashoffset={
+                            2 * Math.PI * 24 * (1 - loadingProgress / 100)
+                          }
+                          className="transition-all duration-500"
+                        />
+                      </svg>
+                      {/* Percentage in center */}
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="text-sm font-bold text-white">
+                          {Math.round(loadingProgress)}%
+                        </span>
+                      </div>
                     </div>
-                    <div className="text-left">
-                      <p className="font-semibold text-white text-sm">
+
+                    {/* Status Text */}
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-white text-sm truncate mb-1">
                         Analyzing {website}
                       </p>
-                      <p className="text-xs text-muted-foreground">
-                        Full scan in progress...
-                      </p>
+                      {(() => {
+                        const steps = [
+                          "Checking Performance",
+                          "Analyzing SEO",
+                          "Scanning Security",
+                          "Testing Accessibility",
+                          "Measuring Speed",
+                        ];
+                        const currentStepIndex = Math.min(
+                          Math.floor(loadingProgress / 20),
+                          steps.length - 1
+                        );
+                        return (
+                          <p className="text-emerald-400 text-sm font-medium animate-pulse">
+                            {steps[currentStepIndex]}...
+                          </p>
+                        );
+                      })()}
+                    </div>
+
+                    {/* Time estimate */}
+                    <div className="text-right flex-shrink-0">
+                      <p className="text-xs text-white/40">Est. time</p>
+                      <p className="text-sm text-white/60">10-30s</p>
                     </div>
                   </div>
-
-                  {/* Animated Steps - Show only one at a time */}
-                  <div className="mb-4">
-                    {(() => {
-                      const steps = [
-                        { label: "Checking Performance" },
-                        { label: "Analyzing SEO" },
-                        { label: "Scanning Security" },
-                        { label: "Testing Accessibility" },
-                        { label: "Measuring Speed" },
-                      ];
-                      const currentStepIndex = Math.min(
-                        Math.floor(loadingProgress / 20),
-                        steps.length - 1
-                      );
-                      const currentStep = steps[currentStepIndex];
-
-                      return (
-                        <div className="flex items-center gap-2 p-3 rounded-lg bg-white/5 border border-white/10 text-sm">
-                          <Loader2 className="h-4 w-4 text-emerald-400 animate-spin" />
-                          <span className="text-white font-medium">
-                            {currentStep.label}
-                          </span>
-                          <span className="text-white/40 text-xs ml-auto">
-                            {currentStepIndex + 1} / {steps.length}
-                          </span>
-                        </div>
-                      );
-                    })()}
-                  </div>
-
-                  <Progress value={loadingProgress} className="h-1.5" />
-                  <p className="text-xs text-muted-foreground mt-2 text-center">
-                    This typically takes 10-30 seconds
-                  </p>
                 </div>
               )}
 
