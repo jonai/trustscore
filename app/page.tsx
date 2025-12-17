@@ -339,7 +339,7 @@ export default function TrustScorePage() {
                 variant="secondary"
                 className="mb-6 bg-white/5 border-white/10 backdrop-blur-sm"
               >
-                <span className="text-emerald-400 animate-pulse">●</span>
+                <span className="text-white/60">✓</span>
                 <span className="ml-2">Get your badge + dofollow backlink</span>
               </Badge>
 
@@ -366,7 +366,7 @@ export default function TrustScorePage() {
                   />
                   <Button
                     size="lg"
-                    className="h-14 px-8 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-bold shadow-[0_0_20px_rgba(16,185,129,0.4)] hover:shadow-[0_0_30px_rgba(16,185,129,0.6)] transition-all duration-300 relative overflow-hidden"
+                    className="h-14 px-8 bg-white hover:bg-white/90 text-gray-900 font-bold transition-all duration-300 relative overflow-hidden"
                     onClick={() => {
                       if (!website.trim()) {
                         const input = document.querySelector(
@@ -436,16 +436,16 @@ export default function TrustScorePage() {
                     {[1, 2, 3, 4, 5].map((i) => (
                       <Avatar
                         key={i}
-                        className="border-2 border-background ring-2 ring-emerald-500/20"
+                        className="border-2 border-background ring-2 ring-white/10"
                       >
-                        <AvatarFallback className="bg-gradient-to-br from-emerald-400 to-emerald-600 text-white text-xs font-medium">
+                        <AvatarFallback className="bg-gradient-to-br from-gray-600 to-gray-700 text-white text-xs font-medium">
                           {String.fromCharCode(64 + i)}
                         </AvatarFallback>
                       </Avatar>
                     ))}
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    <span className="text-emerald-400 font-medium mr-1">●</span>
+                    <span className="text-white/60 font-medium mr-1">●</span>
                     Join the Beta Program & Get Verified
                   </p>
                 </div>
