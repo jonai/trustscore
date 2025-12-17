@@ -78,22 +78,25 @@ export default function TrustScorePage() {
       const startDelay = setTimeout(() => {
         const interval = setInterval(() => {
           setLoadingProgress((prev) => {
-            // Fast until 70%, then slow down, very slow after 85%
-            if (prev >= 98) return 98; // Never reach 100 until complete
+            // Never reach 100 until complete
+            if (prev >= 98) return 98;
             if (prev >= 85) {
               // Very slow progress after 85%
               return prev + 0.3;
             }
             if (prev >= 70) {
               // Slower progress 70-85%
-              return prev + Math.random() * 2;
+              return prev + Math.random() * 1.5;
             }
-            // Fast progress 0-70%
-            const remaining = 70 - prev;
-            const increment = Math.max(2, remaining * 0.1 + Math.random() * 5);
-            return Math.min(70, prev + increment);
+            // Start slow, then speed up 0-70%
+            // First 10%: very slow to show bar starting from 0
+            if (prev < 10) {
+              return prev + 1 + Math.random() * 2;
+            }
+            // 10-70%: faster
+            return prev + 2 + Math.random() * 4;
           });
-        }, 400);
+        }, 300);
 
         return () => clearInterval(interval);
       }, 50);
@@ -272,7 +275,7 @@ export default function TrustScorePage() {
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
 
               {/* Badge Preview */}
-              <div className="mb-6 flex justify-center">
+              <div className="mb-4 flex justify-center">
                 <div className="inline-flex items-center gap-4 px-6 py-4 rounded-2xl bg-black/40 border border-white/10 backdrop-blur-xl shadow-2xl">
                   {/* Score Circle */}
                   <div className="relative">
