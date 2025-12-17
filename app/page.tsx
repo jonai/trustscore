@@ -28,6 +28,7 @@ import {
   Wrench,
   HelpCircle,
   ExternalLink,
+  CheckCircle2,
 } from "lucide-react";
 import { analyzeWebsite, type PageSpeedResult } from "./actions/analyze";
 import { ResultsSection } from "@/components/report/results-section";
@@ -366,7 +367,7 @@ export default function TrustScorePage() {
                   />
                   <Button
                     size="lg"
-                    className="h-14 px-8 bg-white hover:bg-gray-100 text-gray-900 font-bold shadow-lg shadow-white/20 hover:shadow-white/30 transition-all duration-300 relative overflow-hidden"
+                    className="h-14 px-8 bg-white hover:bg-gray-100 text-gray-900 font-bold shadow-lg shadow-white/20 hover:shadow-white/30 transition-all duration-300 relative overflow-hidden cursor-pointer"
                     onClick={() => {
                       if (!website.trim()) {
                         const input = document.querySelector(
@@ -405,23 +406,69 @@ export default function TrustScorePage() {
                 </div>
               )}
 
-              {/* Loading State */}
+              {/* Loading State with Animated Steps */}
               {isPending && (
                 <div className="max-w-2xl mx-auto mb-8 p-6 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 animate-in fade-in slide-in-from-bottom-4">
-                  <div className="flex items-center gap-4 mb-4">
+                  <div className="flex items-center gap-4 mb-6">
                     <div className="relative">
-                      <div className="w-12 h-12 rounded-full border-2 border-emerald-500/30 border-t-emerald-500 animate-spin" />
-                      <Search className="absolute inset-0 m-auto h-5 w-5 text-emerald-400" />
+                      <div className="w-14 h-14 rounded-full border-2 border-emerald-500/30 border-t-emerald-500 animate-spin" />
+                      <Search className="absolute inset-0 m-auto h-6 w-6 text-emerald-400" />
                     </div>
                     <div className="text-left">
-                      <p className="font-medium text-white">
+                      <p className="font-semibold text-white text-lg">
                         Analyzing {website}
                       </p>
                       <p className="text-sm text-muted-foreground">
-                        Running PageSpeed & SEO checks...
+                        Full scan in progress...
                       </p>
                     </div>
                   </div>
+
+                  {/* Animated Steps */}
+                  <div className="space-y-2 mb-6">
+                    {[
+                      { label: "Checking Performance", delay: 0 },
+                      { label: "Analyzing SEO", delay: 4000 },
+                      { label: "Scanning Security", delay: 8000 },
+                      { label: "Testing Accessibility", delay: 12000 },
+                      { label: "Measuring Speed", delay: 16000 },
+                    ].map((step, index) => {
+                      const isActive = loadingProgress >= index * 20;
+                      const isComplete = loadingProgress >= (index + 1) * 20;
+                      return (
+                        <div
+                          key={index}
+                          className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-500 ${
+                            isComplete
+                              ? "bg-emerald-500/10"
+                              : isActive
+                              ? "bg-white/5 border border-white/10"
+                              : "opacity-30"
+                          }`}
+                        >
+                          {isComplete ? (
+                            <CheckCircle2 className="h-5 w-5 text-emerald-400" />
+                          ) : isActive ? (
+                            <Loader2 className="h-5 w-5 text-white/60 animate-spin" />
+                          ) : (
+                            <div className="h-5 w-5 rounded-full border-2 border-white/20" />
+                          )}
+                          <span
+                            className={`text-sm ${
+                              isComplete
+                                ? "text-emerald-400 font-medium"
+                                : isActive
+                                ? "text-white font-medium"
+                                : "text-white/40"
+                            }`}
+                          >
+                            {step.label}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+
                   <Progress value={loadingProgress} className="h-2" />
                   <p className="text-xs text-muted-foreground mt-3 text-center">
                     This typically takes 10-30 seconds
