@@ -413,14 +413,11 @@ export async function analyzeWebsite(url: string): Promise<AnalyzeResponse> {
       (categories["best-practices"]?.score || 0) * 100
     );
 
-    // Calculate overall score (weighted average of all categories)
+    // Calculate overall score (simple average of 4 Lighthouse categories)
+    // This matches what is saved to Supabase and displayed on certified page
     const overallScore = Math.round(
-      performanceScore * 0.2 +
-        seoScore * 0.2 +
-        accessibilityScore * 0.15 +
-        bestPracticesScore * 0.15 +
-        htmlAnalysis.websiteQuality.score * 0.15 +
-        htmlAnalysis.trustSecurity.score * 0.15
+      (performanceScore + seoScore + accessibilityScore + bestPracticesScore) /
+        4
     );
 
     const result: PageSpeedResult = {
