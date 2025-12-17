@@ -58,13 +58,15 @@ export function ResultsSection({
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
-  const avgScore = Math.round(
-    (result.performanceScore +
-      result.seoScore +
-      result.accessibilityScore +
-      result.bestPracticesScore) /
-      4
-  );
+  const avgScore =
+    result.overallScore ??
+    Math.round(
+      (result.performanceScore +
+        result.seoScore +
+        result.accessibilityScore +
+        result.bestPracticesScore) /
+        4
+    );
 
   useEffect(() => {
     if (avgScore >= 80) {
@@ -616,104 +618,269 @@ export function ResultsSection({
             </div>
           </Card>
 
-          {/* 4. TRUST & SECURITY ANALYSIS */}
-          <Card
-            className={`p-6 backdrop-blur-xl ${
-              isPremium
-                ? "bg-emerald-500/5 border-emerald-500/20"
-                : "bg-white/5 border-white/10"
-            }`}
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <Globe
-                className={`h-5 w-5 ${
-                  isPremium ? "text-emerald-400" : "text-amber-400"
-                }`}
-              />
-              <h3 className="text-lg font-semibold text-white">
-                Trust & Security Analysis
-              </h3>
-            </div>
+          {/* 4. WEBSITE QUALITY ANALYSIS */}
+          {result.websiteQuality && (
+            <Card className="p-6 bg-gradient-to-br from-white/5 to-transparent border-white/10">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <Globe className="h-5 w-5 text-blue-400" />
+                  <h3 className="text-lg font-semibold text-white">
+                    Website Quality
+                  </h3>
+                </div>
+                <Badge
+                  className={`${
+                    result.websiteQuality.score >= 70
+                      ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
+                      : result.websiteQuality.score >= 40
+                      ? "bg-amber-500/20 text-amber-400 border-amber-500/30"
+                      : "bg-red-500/20 text-red-400 border-red-500/30"
+                  }`}
+                >
+                  {result.websiteQuality.score}/100
+                </Badge>
+              </div>
 
-            <div className="space-y-4">
-              {/* List of items similar to before, but styled for vertical flow */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* SSL */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {/* Word Count */}
                 <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
                   <div className="flex items-center gap-2">
-                    <Shield className="h-4 w-4 text-emerald-400" />
-                    <span className="text-sm text-white/90">SSL Security</span>
+                    <Activity className="h-4 w-4 text-blue-400" />
+                    <span className="text-sm text-white/90">Word Count</span>
                   </div>
-                  <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                  <span
+                    className={`text-sm font-medium ${
+                      result.websiteQuality.wordCount >= 300
+                        ? "text-emerald-400"
+                        : result.websiteQuality.wordCount >= 100
+                        ? "text-amber-400"
+                        : "text-red-400"
+                    }`}
+                  >
+                    {result.websiteQuality.wordCount.toLocaleString()} words
+                  </span>
                 </div>
 
-                {/* Reputation */}
+                {/* Favicon */}
                 <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
                   <div className="flex items-center gap-2">
-                    {isPremium ? (
-                      <ShieldAlert className="h-4 w-4 text-emerald-400" />
-                    ) : (
-                      <LockKeyhole className="h-4 w-4 text-amber-400" />
-                    )}
+                    <ImageIcon className="h-4 w-4 text-blue-400" />
+                    <span className="text-sm text-white/90">Favicon</span>
+                  </div>
+                  {result.websiteQuality.hasFavicon ? (
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                  ) : (
+                    <XCircle className="h-4 w-4 text-red-400" />
+                  )}
+                </div>
+
+                {/* Open Graph */}
+                <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
+                  <div className="flex items-center gap-2">
+                    <Globe className="h-4 w-4 text-blue-400" />
                     <span className="text-sm text-white/90">
-                      Domain Reputation
+                      Open Graph Tags
                     </span>
                   </div>
-                  {isPremium ? (
-                    <span className="text-xs text-emerald-400 font-bold">
-                      Verified
+                  {result.websiteQuality.hasOpenGraph ? (
+                    <span className="text-sm text-emerald-400 font-medium">
+                      {result.websiteQuality.ogTags.length} tags
                     </span>
                   ) : (
-                    <span className="text-xs text-white/30 blur-[2px]">
-                      Verified
-                    </span>
+                    <XCircle className="h-4 w-4 text-red-400" />
                   )}
                 </div>
 
-                {/* Spam */}
+                {/* Twitter Cards */}
                 <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
                   <div className="flex items-center gap-2">
-                    {isPremium ? (
-                      <AlertTriangle className="h-4 w-4 text-emerald-400" />
-                    ) : (
-                      <LockKeyhole className="h-4 w-4 text-amber-400" />
-                    )}
-                    <span className="text-sm text-white/90">Spam Score</span>
+                    <ExternalLink className="h-4 w-4 text-blue-400" />
+                    <span className="text-sm text-white/90">Twitter Cards</span>
                   </div>
-                  {isPremium ? (
-                    <span className="text-xs text-emerald-400 font-bold">
-                      Clean
+                  {result.websiteQuality.hasTwitterCards ? (
+                    <span className="text-sm text-emerald-400 font-medium">
+                      {result.websiteQuality.twitterTags.length} tags
                     </span>
                   ) : (
-                    <span className="text-xs text-white/30 blur-[2px]">
-                      Clean
-                    </span>
+                    <XCircle className="h-4 w-4 text-red-400" />
                   )}
                 </div>
 
-                {/* Backlink */}
+                {/* Sitemap */}
                 <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
                   <div className="flex items-center gap-2">
-                    {isPremium ? (
-                      <ExternalLink className="h-4 w-4 text-emerald-400" />
-                    ) : (
-                      <LockKeyhole className="h-4 w-4 text-amber-400" />
-                    )}
-                    <span className="text-sm text-white/90">SEO Backlink</span>
+                    <Search className="h-4 w-4 text-blue-400" />
+                    <span className="text-sm text-white/90">Sitemap.xml</span>
                   </div>
-                  {isPremium ? (
-                    <span className="text-xs text-emerald-400 font-bold">
-                      Active
+                  {result.websiteQuality.hasSitemap ? (
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                  ) : (
+                    <XCircle className="h-4 w-4 text-red-400" />
+                  )}
+                </div>
+
+                {/* Schema Markup */}
+                <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
+                  <div className="flex items-center gap-2">
+                    <Lightbulb className="h-4 w-4 text-blue-400" />
+                    <span className="text-sm text-white/90">Schema Markup</span>
+                  </div>
+                  {result.websiteQuality.schemaCount > 0 ? (
+                    <span className="text-sm text-emerald-400 font-medium">
+                      {result.websiteQuality.schemaCount} found
                     </span>
                   ) : (
-                    <span className="text-xs text-white/30 blur-[2px]">
-                      Active
-                    </span>
+                    <XCircle className="h-4 w-4 text-red-400" />
+                  )}
+                </div>
+
+                {/* Canonical */}
+                <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
+                  <div className="flex items-center gap-2">
+                    <ArrowRight className="h-4 w-4 text-blue-400" />
+                    <span className="text-sm text-white/90">Canonical URL</span>
+                  </div>
+                  {result.websiteQuality.hasCanonical ? (
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                  ) : (
+                    <XCircle className="h-4 w-4 text-red-400" />
+                  )}
+                </div>
+
+                {/* Hreflang */}
+                <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
+                  <div className="flex items-center gap-2">
+                    <Globe className="h-4 w-4 text-blue-400" />
+                    <span className="text-sm text-white/90">Hreflang Tags</span>
+                  </div>
+                  {result.websiteQuality.hasHreflang ? (
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                  ) : (
+                    <span className="text-xs text-white/40">Not found</span>
                   )}
                 </div>
               </div>
-            </div>
-          </Card>
+            </Card>
+          )}
+
+          {/* 5. TRUST & SECURITY ANALYSIS */}
+          {result.trustSecurity && (
+            <Card className="p-6 bg-gradient-to-br from-white/5 to-transparent border-white/10">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <Shield className="h-5 w-5 text-emerald-400" />
+                  <h3 className="text-lg font-semibold text-white">
+                    Trust & Security
+                  </h3>
+                </div>
+                <Badge
+                  className={`${
+                    result.trustSecurity.score >= 70
+                      ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
+                      : result.trustSecurity.score >= 40
+                      ? "bg-amber-500/20 text-amber-400 border-amber-500/30"
+                      : "bg-red-500/20 text-red-400 border-red-500/30"
+                  }`}
+                >
+                  {result.trustSecurity.score}/100
+                </Badge>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {/* HTTPS */}
+                <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
+                  <div className="flex items-center gap-2">
+                    <LockKeyhole className="h-4 w-4 text-emerald-400" />
+                    <span className="text-sm text-white/90">HTTPS</span>
+                  </div>
+                  {result.trustSecurity.hasHttps ? (
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                  ) : (
+                    <XCircle className="h-4 w-4 text-red-400" />
+                  )}
+                </div>
+
+                {/* HSTS */}
+                <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
+                  <div className="flex items-center gap-2">
+                    <Shield className="h-4 w-4 text-emerald-400" />
+                    <span className="text-sm text-white/90">HSTS Header</span>
+                  </div>
+                  {result.trustSecurity.hasHSTS ? (
+                    <span className="text-xs text-emerald-400 font-medium">
+                      {result.trustSecurity.hstsMaxAge
+                        ? `${Math.round(
+                            result.trustSecurity.hstsMaxAge / 86400
+                          )}d`
+                        : "Active"}
+                    </span>
+                  ) : (
+                    <XCircle className="h-4 w-4 text-red-400" />
+                  )}
+                </div>
+
+                {/* CSP */}
+                <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
+                  <div className="flex items-center gap-2">
+                    <ShieldAlert className="h-4 w-4 text-emerald-400" />
+                    <span className="text-sm text-white/90">
+                      Content Security Policy
+                    </span>
+                  </div>
+                  {result.trustSecurity.hasCSP ? (
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                  ) : (
+                    <XCircle className="h-4 w-4 text-red-400" />
+                  )}
+                </div>
+
+                {/* X-Frame-Options */}
+                <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
+                  <div className="flex items-center gap-2">
+                    <Eye className="h-4 w-4 text-emerald-400" />
+                    <span className="text-sm text-white/90">
+                      X-Frame-Options
+                    </span>
+                  </div>
+                  {result.trustSecurity.hasXFrameOptions ? (
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                  ) : (
+                    <XCircle className="h-4 w-4 text-red-400" />
+                  )}
+                </div>
+
+                {/* X-Content-Type-Options */}
+                <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
+                  <div className="flex items-center gap-2">
+                    <AlertTriangle className="h-4 w-4 text-emerald-400" />
+                    <span className="text-sm text-white/90">
+                      X-Content-Type-Options
+                    </span>
+                  </div>
+                  {result.trustSecurity.hasXContentTypeOptions ? (
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                  ) : (
+                    <XCircle className="h-4 w-4 text-red-400" />
+                  )}
+                </div>
+
+                {/* Referrer Policy */}
+                <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
+                  <div className="flex items-center gap-2">
+                    <ExternalLink className="h-4 w-4 text-emerald-400" />
+                    <span className="text-sm text-white/90">
+                      Referrer Policy
+                    </span>
+                  </div>
+                  {result.trustSecurity.hasReferrerPolicy ? (
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                  ) : (
+                    <XCircle className="h-4 w-4 text-red-400" />
+                  )}
+                </div>
+              </div>
+            </Card>
+          )}
 
           {/* 5. TECHNICAL DETAILS */}
           <Accordion type="single" collapsible className="w-full">
