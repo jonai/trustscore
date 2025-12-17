@@ -29,14 +29,19 @@ function AnalyzeCard() {
 
   const [currentStep, setCurrentStep] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
+  const [hasCompleted, setHasCompleted] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
-  // Restart animation when card enters viewport
+  // Restart animation when card enters viewport (only if animation has completed)
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setCurrentStep(0); // Reset animation
+          // Only reset if animation was completed
+          if (hasCompleted) {
+            setCurrentStep(0);
+            setHasCompleted(false);
+          }
           setIsVisible(true);
         } else {
           setIsVisible(false);
@@ -50,11 +55,17 @@ function AnalyzeCard() {
     }
 
     return () => observer.disconnect();
-  }, []);
+  }, [hasCompleted]);
 
   // Progress animation
   useEffect(() => {
-    if (!isVisible || currentStep >= steps.length) return;
+    if (!isVisible || currentStep >= steps.length) {
+      // Mark as completed when animation finishes
+      if (currentStep >= steps.length) {
+        setHasCompleted(true);
+      }
+      return;
+    }
 
     const timeout = setTimeout(() => {
       setCurrentStep((prev) => prev + 1);
