@@ -425,19 +425,11 @@ export default function TrustScorePage() {
 
                   {/* Progress bar - white and thin */}
                   <div className="relative h-1.5 bg-white/10 rounded-full overflow-hidden mb-3">
-                    {/* Glow effect behind bar */}
-                    <div
-                      className="absolute inset-y-0 left-0 bg-white/20 blur-sm rounded-full transition-all duration-700 ease-out"
-                      style={{ width: `${loadingProgress}%` }}
-                    />
                     {/* Main progress bar */}
                     <div
-                      className="absolute inset-y-0 left-0 bg-gradient-to-r from-white/80 via-white to-white/80 rounded-full transition-all duration-700 ease-out"
+                      className="absolute inset-y-0 left-0 bg-white rounded-full transition-all duration-700 ease-out"
                       style={{ width: `${loadingProgress}%` }}
-                    >
-                      {/* Shimmer effect */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent animate-shimmer" />
-                    </div>
+                    />
                   </div>
 
                   {/* Step indicator */}
@@ -455,13 +447,13 @@ export default function TrustScorePage() {
                         steps.length - 1
                       );
                       return (
-                        <p className="text-white/60 text-sm">
-                          <span className="inline-block w-1.5 h-1.5 bg-white/60 rounded-full mr-2 animate-pulse" />
+                        <p className="text-emerald-400 text-sm font-medium">
+                          <span className="inline-block w-1.5 h-1.5 bg-emerald-400 rounded-full mr-2 animate-pulse" />
                           {steps[currentStepIndex]}
                         </p>
                       );
                     })()}
-                    <p className="text-white/40 text-xs">~10-30s</p>
+                    <p className="text-blue-400/60 text-xs">~10-30s</p>
                   </div>
                 </div>
               )}
