@@ -108,6 +108,7 @@ export default function TrustScorePage() {
 
   const handleAnalyze = () => {
     setError(null);
+    setLoadingProgress(0); // Reset progress before starting
     startTransition(async () => {
       const response = await analyzeWebsite(website);
       if (response.success && response.data) {
