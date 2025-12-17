@@ -10,6 +10,18 @@ import {
   ArrowLeft,
   Calendar,
   TrendingUp,
+  Globe,
+  CheckCircle2,
+  XCircle,
+  Activity,
+  Search,
+  Lightbulb,
+  ArrowRight,
+  LockKeyhole,
+  ShieldAlert,
+  Eye,
+  AlertTriangle,
+  Image as ImageIcon,
 } from "lucide-react";
 import {
   getCertificationByDomain,
@@ -48,6 +60,29 @@ export default async function CertifiedWebsitePage({ params }: PageProps) {
   const auditHistory = await getAuditHistory(certification.id);
 
   const avgScore = certification.current_score;
+
+  // Type assertions for the new fields (they may be null on old records)
+  const cert = certification as typeof certification & {
+    website_quality_score?: number;
+    word_count?: number;
+    has_favicon?: boolean;
+    has_open_graph?: boolean;
+    og_tags_count?: number;
+    has_twitter_cards?: boolean;
+    twitter_tags_count?: number;
+    has_sitemap?: boolean;
+    schema_count?: number;
+    has_canonical?: boolean;
+    has_hreflang?: boolean;
+    trust_security_score?: number;
+    has_https?: boolean;
+    has_hsts?: boolean;
+    hsts_max_age?: number | null;
+    has_csp?: boolean;
+    has_x_frame_options?: boolean;
+    has_x_content_type_options?: boolean;
+    has_referrer_policy?: boolean;
+  };
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-black via-gray-950 to-black">
@@ -130,14 +165,11 @@ export default async function CertifiedWebsitePage({ params }: PageProps) {
           {/* Main Score Circle */}
           <div className="flex flex-col items-center gap-4 mb-12">
             <div className="relative p-6">
-              {/* Glow effect */}
               <div
                 className={`absolute inset-0 rounded-full blur-2xl opacity-30 ${getScoreBg(
                   avgScore
                 )}`}
               />
-
-              {/* SVG Circle with Arc */}
               <svg
                 className="w-40 h-40 transform -rotate-90 relative"
                 style={{ overflow: "visible" }}
@@ -171,8 +203,6 @@ export default async function CertifiedWebsitePage({ params }: PageProps) {
                   strokeLinecap="round"
                 />
               </svg>
-
-              {/* Score number in center */}
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 <span
                   className={`text-6xl font-bold ${getScoreColor(avgScore)}`}
@@ -261,6 +291,254 @@ export default async function CertifiedWebsitePage({ params }: PageProps) {
               ))}
             </div>
           </Card>
+
+          {/* Website Quality Section */}
+          {cert.website_quality_score !== undefined && (
+            <Card className="p-6 bg-gradient-to-br from-white/5 to-transparent border-white/10 mb-8">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <Globe className="h-5 w-5 text-blue-400" />
+                  <h3 className="text-lg font-semibold text-white">
+                    Website Quality
+                  </h3>
+                </div>
+                <Badge
+                  className={`${
+                    cert.website_quality_score >= 70
+                      ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
+                      : cert.website_quality_score >= 40
+                      ? "bg-amber-500/20 text-amber-400 border-amber-500/30"
+                      : "bg-red-500/20 text-red-400 border-red-500/30"
+                  }`}
+                >
+                  {cert.website_quality_score}/100
+                </Badge>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
+                  <div className="flex items-center gap-2">
+                    <Activity className="h-4 w-4 text-blue-400" />
+                    <span className="text-sm text-white/90">Word Count</span>
+                  </div>
+                  <span
+                    className={`text-sm font-medium ${
+                      (cert.word_count || 0) >= 300
+                        ? "text-emerald-400"
+                        : (cert.word_count || 0) >= 100
+                        ? "text-amber-400"
+                        : "text-red-400"
+                    }`}
+                  >
+                    {(cert.word_count || 0).toLocaleString()} words
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
+                  <div className="flex items-center gap-2">
+                    <ImageIcon className="h-4 w-4 text-blue-400" />
+                    <span className="text-sm text-white/90">Favicon</span>
+                  </div>
+                  {cert.has_favicon ? (
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                  ) : (
+                    <XCircle className="h-4 w-4 text-red-400" />
+                  )}
+                </div>
+
+                <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
+                  <div className="flex items-center gap-2">
+                    <Globe className="h-4 w-4 text-blue-400" />
+                    <span className="text-sm text-white/90">
+                      Open Graph Tags
+                    </span>
+                  </div>
+                  {cert.has_open_graph ? (
+                    <span className="text-sm text-emerald-400 font-medium">
+                      {cert.og_tags_count || 0} tags
+                    </span>
+                  ) : (
+                    <XCircle className="h-4 w-4 text-red-400" />
+                  )}
+                </div>
+
+                <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
+                  <div className="flex items-center gap-2">
+                    <ExternalLink className="h-4 w-4 text-blue-400" />
+                    <span className="text-sm text-white/90">Twitter Cards</span>
+                  </div>
+                  {cert.has_twitter_cards ? (
+                    <span className="text-sm text-emerald-400 font-medium">
+                      {cert.twitter_tags_count || 0} tags
+                    </span>
+                  ) : (
+                    <XCircle className="h-4 w-4 text-red-400" />
+                  )}
+                </div>
+
+                <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
+                  <div className="flex items-center gap-2">
+                    <Search className="h-4 w-4 text-blue-400" />
+                    <span className="text-sm text-white/90">Sitemap.xml</span>
+                  </div>
+                  {cert.has_sitemap ? (
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                  ) : (
+                    <XCircle className="h-4 w-4 text-red-400" />
+                  )}
+                </div>
+
+                <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
+                  <div className="flex items-center gap-2">
+                    <Lightbulb className="h-4 w-4 text-blue-400" />
+                    <span className="text-sm text-white/90">Schema Markup</span>
+                  </div>
+                  {(cert.schema_count || 0) > 0 ? (
+                    <span className="text-sm text-emerald-400 font-medium">
+                      {cert.schema_count} found
+                    </span>
+                  ) : (
+                    <XCircle className="h-4 w-4 text-red-400" />
+                  )}
+                </div>
+
+                <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
+                  <div className="flex items-center gap-2">
+                    <ArrowRight className="h-4 w-4 text-blue-400" />
+                    <span className="text-sm text-white/90">Canonical URL</span>
+                  </div>
+                  {cert.has_canonical ? (
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                  ) : (
+                    <XCircle className="h-4 w-4 text-red-400" />
+                  )}
+                </div>
+
+                <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
+                  <div className="flex items-center gap-2">
+                    <Globe className="h-4 w-4 text-blue-400" />
+                    <span className="text-sm text-white/90">Hreflang Tags</span>
+                  </div>
+                  {cert.has_hreflang ? (
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                  ) : (
+                    <span className="text-xs text-white/40">Not found</span>
+                  )}
+                </div>
+              </div>
+            </Card>
+          )}
+
+          {/* Trust & Security Section */}
+          {cert.trust_security_score !== undefined && (
+            <Card className="p-6 bg-gradient-to-br from-white/5 to-transparent border-white/10 mb-8">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <Shield className="h-5 w-5 text-emerald-400" />
+                  <h3 className="text-lg font-semibold text-white">
+                    Trust & Security
+                  </h3>
+                </div>
+                <Badge
+                  className={`${
+                    cert.trust_security_score >= 70
+                      ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
+                      : cert.trust_security_score >= 40
+                      ? "bg-amber-500/20 text-amber-400 border-amber-500/30"
+                      : "bg-red-500/20 text-red-400 border-red-500/30"
+                  }`}
+                >
+                  {cert.trust_security_score}/100
+                </Badge>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
+                  <div className="flex items-center gap-2">
+                    <LockKeyhole className="h-4 w-4 text-emerald-400" />
+                    <span className="text-sm text-white/90">HTTPS</span>
+                  </div>
+                  {cert.has_https ? (
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                  ) : (
+                    <XCircle className="h-4 w-4 text-red-400" />
+                  )}
+                </div>
+
+                <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
+                  <div className="flex items-center gap-2">
+                    <Shield className="h-4 w-4 text-emerald-400" />
+                    <span className="text-sm text-white/90">HSTS Header</span>
+                  </div>
+                  {cert.has_hsts ? (
+                    <span className="text-xs text-emerald-400 font-medium">
+                      {cert.hsts_max_age
+                        ? `${Math.round(cert.hsts_max_age / 86400)}d`
+                        : "Active"}
+                    </span>
+                  ) : (
+                    <XCircle className="h-4 w-4 text-red-400" />
+                  )}
+                </div>
+
+                <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
+                  <div className="flex items-center gap-2">
+                    <ShieldAlert className="h-4 w-4 text-emerald-400" />
+                    <span className="text-sm text-white/90">
+                      Content Security Policy
+                    </span>
+                  </div>
+                  {cert.has_csp ? (
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                  ) : (
+                    <XCircle className="h-4 w-4 text-red-400" />
+                  )}
+                </div>
+
+                <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
+                  <div className="flex items-center gap-2">
+                    <Eye className="h-4 w-4 text-emerald-400" />
+                    <span className="text-sm text-white/90">
+                      X-Frame-Options
+                    </span>
+                  </div>
+                  {cert.has_x_frame_options ? (
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                  ) : (
+                    <XCircle className="h-4 w-4 text-red-400" />
+                  )}
+                </div>
+
+                <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
+                  <div className="flex items-center gap-2">
+                    <AlertTriangle className="h-4 w-4 text-emerald-400" />
+                    <span className="text-sm text-white/90">
+                      X-Content-Type-Options
+                    </span>
+                  </div>
+                  {cert.has_x_content_type_options ? (
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                  ) : (
+                    <XCircle className="h-4 w-4 text-red-400" />
+                  )}
+                </div>
+
+                <div className="flex items-center justify-between p-3 rounded-lg bg-black/20">
+                  <div className="flex items-center gap-2">
+                    <ExternalLink className="h-4 w-4 text-emerald-400" />
+                    <span className="text-sm text-white/90">
+                      Referrer Policy
+                    </span>
+                  </div>
+                  {cert.has_referrer_policy ? (
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                  ) : (
+                    <XCircle className="h-4 w-4 text-red-400" />
+                  )}
+                </div>
+              </div>
+            </Card>
+          )}
 
           {/* Historical Chart */}
           {auditHistory.length > 1 && (

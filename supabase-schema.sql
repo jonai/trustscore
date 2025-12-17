@@ -20,6 +20,28 @@ CREATE TABLE IF NOT EXISTS public.certified_websites (
   seo_score INTEGER NOT NULL DEFAULT 0,
   accessibility_score INTEGER NOT NULL DEFAULT 0,
   best_practices_score INTEGER NOT NULL DEFAULT 0,
+  -- Website Quality fields
+  website_quality_score INTEGER NOT NULL DEFAULT 0,
+  word_count INTEGER DEFAULT 0,
+  has_favicon BOOLEAN DEFAULT false,
+  has_open_graph BOOLEAN DEFAULT false,
+  og_tags_count INTEGER DEFAULT 0,
+  has_twitter_cards BOOLEAN DEFAULT false,
+  twitter_tags_count INTEGER DEFAULT 0,
+  has_sitemap BOOLEAN DEFAULT false,
+  schema_count INTEGER DEFAULT 0,
+  has_canonical BOOLEAN DEFAULT false,
+  has_hreflang BOOLEAN DEFAULT false,
+  -- Trust & Security fields
+  trust_security_score INTEGER NOT NULL DEFAULT 0,
+  has_https BOOLEAN DEFAULT false,
+  has_hsts BOOLEAN DEFAULT false,
+  hsts_max_age INTEGER,
+  has_csp BOOLEAN DEFAULT false,
+  has_x_frame_options BOOLEAN DEFAULT false,
+  has_x_content_type_options BOOLEAN DEFAULT false,
+  has_referrer_policy BOOLEAN DEFAULT false,
+  -- Existing fields
   metrics JSONB,
   certified_date TIMESTAMPTZ DEFAULT NOW(),
   last_audit_date TIMESTAMPTZ DEFAULT NOW(),
@@ -36,6 +58,8 @@ CREATE TABLE IF NOT EXISTS public.audit_history (
   seo_score INTEGER NOT NULL DEFAULT 0,
   accessibility_score INTEGER NOT NULL DEFAULT 0,
   best_practices_score INTEGER NOT NULL DEFAULT 0,
+  website_quality_score INTEGER DEFAULT 0,
+  trust_security_score INTEGER DEFAULT 0,
   audited_at TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -62,3 +86,29 @@ CREATE POLICY "Public read access for audit history"
 
 -- Service role can do everything (for server-side operations)
 -- Note: When using service_role key, RLS is bypassed
+
+
+-- ============================================
+-- MIGRATION: Run this if tables already exist
+-- ============================================
+-- ALTER TABLE public.certified_websites ADD COLUMN IF NOT EXISTS website_quality_score INTEGER NOT NULL DEFAULT 0;
+-- ALTER TABLE public.certified_websites ADD COLUMN IF NOT EXISTS word_count INTEGER DEFAULT 0;
+-- ALTER TABLE public.certified_websites ADD COLUMN IF NOT EXISTS has_favicon BOOLEAN DEFAULT false;
+-- ALTER TABLE public.certified_websites ADD COLUMN IF NOT EXISTS has_open_graph BOOLEAN DEFAULT false;
+-- ALTER TABLE public.certified_websites ADD COLUMN IF NOT EXISTS og_tags_count INTEGER DEFAULT 0;
+-- ALTER TABLE public.certified_websites ADD COLUMN IF NOT EXISTS has_twitter_cards BOOLEAN DEFAULT false;
+-- ALTER TABLE public.certified_websites ADD COLUMN IF NOT EXISTS twitter_tags_count INTEGER DEFAULT 0;
+-- ALTER TABLE public.certified_websites ADD COLUMN IF NOT EXISTS has_sitemap BOOLEAN DEFAULT false;
+-- ALTER TABLE public.certified_websites ADD COLUMN IF NOT EXISTS schema_count INTEGER DEFAULT 0;
+-- ALTER TABLE public.certified_websites ADD COLUMN IF NOT EXISTS has_canonical BOOLEAN DEFAULT false;
+-- ALTER TABLE public.certified_websites ADD COLUMN IF NOT EXISTS has_hreflang BOOLEAN DEFAULT false;
+-- ALTER TABLE public.certified_websites ADD COLUMN IF NOT EXISTS trust_security_score INTEGER NOT NULL DEFAULT 0;
+-- ALTER TABLE public.certified_websites ADD COLUMN IF NOT EXISTS has_https BOOLEAN DEFAULT false;
+-- ALTER TABLE public.certified_websites ADD COLUMN IF NOT EXISTS has_hsts BOOLEAN DEFAULT false;
+-- ALTER TABLE public.certified_websites ADD COLUMN IF NOT EXISTS hsts_max_age INTEGER;
+-- ALTER TABLE public.certified_websites ADD COLUMN IF NOT EXISTS has_csp BOOLEAN DEFAULT false;
+-- ALTER TABLE public.certified_websites ADD COLUMN IF NOT EXISTS has_x_frame_options BOOLEAN DEFAULT false;
+-- ALTER TABLE public.certified_websites ADD COLUMN IF NOT EXISTS has_x_content_type_options BOOLEAN DEFAULT false;
+-- ALTER TABLE public.certified_websites ADD COLUMN IF NOT EXISTS has_referrer_policy BOOLEAN DEFAULT false;
+-- ALTER TABLE public.audit_history ADD COLUMN IF NOT EXISTS website_quality_score INTEGER DEFAULT 0;
+-- ALTER TABLE public.audit_history ADD COLUMN IF NOT EXISTS trust_security_score INTEGER DEFAULT 0;
