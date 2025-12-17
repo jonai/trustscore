@@ -212,38 +212,68 @@ export default function TrustScorePage() {
     <div className="min-h-screen bg-background text-foreground">
       {/* Header */}
       <header className="border-b border-border/50 backdrop-blur-xl bg-background/80 sticky top-0 z-40">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-center relative">
+        <div className="container mx-auto px-4 py-6 flex items-center justify-center relative">
           <div
             className="flex items-center gap-2 cursor-pointer group absolute left-4"
             onClick={handleReset}
           >
-            <div className="p-1.5 rounded-lg bg-gradient-to-br from-emerald-500/20 to-emerald-600/10 group-hover:from-emerald-500/30 group-hover:to-emerald-600/20 transition-colors">
-              <Award className="h-5 w-5 text-emerald-500" />
+            {/* New Logo: 95% ring with lightning bolt and glow */}
+            <div className="relative">
+              <div className="absolute inset-0 bg-emerald-500/30 rounded-full blur-md group-hover:bg-emerald-500/40 transition-colors" />
+              <svg className="relative w-8 h-8" viewBox="0 0 32 32">
+                {/* Background ring */}
+                <circle
+                  cx="16"
+                  cy="16"
+                  r="13"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  fill="none"
+                  className="text-white/10"
+                />
+                {/* Progress ring at 95% */}
+                <circle
+                  cx="16"
+                  cy="16"
+                  r="13"
+                  stroke="#10b981"
+                  strokeWidth="3"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeDasharray={2 * Math.PI * 13 * 0.95}
+                  strokeDashoffset={0}
+                  className="-rotate-90 origin-center"
+                  style={{ transformOrigin: "center" }}
+                />
+                {/* Lightning bolt */}
+                <path
+                  d="M17 7L12 16h4l-1 9 5-10h-4l1-8z"
+                  fill="white"
+                  className="drop-shadow-sm"
+                />
+              </svg>
             </div>
             <span className="text-lg font-semibold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
               VerifiedTrustScore
             </span>
           </div>
-          <nav className="hidden md:flex items-center gap-6 text-sm">
+          <nav className="hidden md:flex items-center gap-8 text-sm">
             <a
               href="#features"
-              className="text-muted-foreground hover:text-white transition-colors flex items-center gap-1"
+              className="text-muted-foreground hover:text-white transition-colors"
             >
-              <Sparkles className="h-4 w-4" />
               Features
             </a>
             <a
               href="#pricing"
-              className="text-muted-foreground hover:text-white transition-colors flex items-center gap-1"
+              className="text-muted-foreground hover:text-white transition-colors"
             >
-              <Award className="h-4 w-4" />
               Pricing
             </a>
             <a
               href="#faq"
-              className="text-muted-foreground hover:text-white transition-colors flex items-center gap-1"
+              className="text-muted-foreground hover:text-white transition-colors"
             >
-              <HelpCircle className="h-4 w-4" />
               FAQ
             </a>
           </nav>
