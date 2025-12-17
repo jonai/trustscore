@@ -406,77 +406,63 @@ export default function TrustScorePage() {
                 </div>
               )}
 
-              {/* Loading State - Elegant Single Animation */}
+              {/* Loading State - Animated Progress Bar */}
               {isPending && (
                 <div className="max-w-2xl mx-auto mb-4 p-4 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 animate-in fade-in slide-in-from-bottom-4">
-                  <div className="flex items-center gap-4">
-                    {/* Animated Progress Ring */}
-                    <div className="relative flex-shrink-0">
-                      <svg className="w-14 h-14 -rotate-90" viewBox="0 0 56 56">
-                        {/* Background ring */}
-                        <circle
-                          cx="28"
-                          cy="28"
-                          r="24"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                          fill="none"
-                          className="text-white/10"
-                        />
-                        {/* Progress ring */}
-                        <circle
-                          cx="28"
-                          cy="28"
-                          r="24"
-                          stroke="#10b981"
-                          strokeWidth="4"
-                          fill="none"
-                          strokeLinecap="round"
-                          strokeDasharray={2 * Math.PI * 24}
-                          strokeDashoffset={
-                            2 * Math.PI * 24 * (1 - loadingProgress / 100)
-                          }
-                          className="transition-all duration-500"
-                        />
-                      </svg>
-                      {/* Percentage in center */}
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-sm font-bold text-white">
-                          {Math.round(loadingProgress)}%
-                        </span>
-                      </div>
-                    </div>
+                  {/* Header row */}
+                  <div className="flex items-center justify-between mb-3">
+                    <p className="font-semibold text-white text-sm truncate">
+                      Analyzing {website}
+                    </p>
+                    <span className="text-emerald-400 text-sm font-bold">
+                      {Math.round(loadingProgress)}%
+                    </span>
+                  </div>
 
-                    {/* Status Text */}
-                    <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-white text-sm truncate mb-1">
-                        Analyzing {website}
-                      </p>
-                      {(() => {
-                        const steps = [
-                          "Checking Performance",
-                          "Analyzing SEO",
-                          "Scanning Security",
-                          "Testing Accessibility",
-                          "Measuring Speed",
-                        ];
-                        const currentStepIndex = Math.min(
-                          Math.floor(loadingProgress / 20),
-                          steps.length - 1
-                        );
-                        return (
-                          <p className="text-emerald-400 text-sm font-medium animate-pulse">
-                            {steps[currentStepIndex]}...
-                          </p>
-                        );
-                      })()}
+                  {/* Progress bar with effects */}
+                  <div className="relative h-3 bg-white/10 rounded-full overflow-hidden mb-3">
+                    {/* Glow effect behind bar */}
+                    <div
+                      className="absolute inset-y-0 left-0 bg-emerald-500/30 blur-sm rounded-full transition-all duration-500"
+                      style={{ width: `${loadingProgress}%` }}
+                    />
+                    {/* Main progress bar */}
+                    <div
+                      className="absolute inset-y-0 left-0 bg-gradient-to-r from-emerald-500 via-emerald-400 to-emerald-500 rounded-full transition-all duration-500"
+                      style={{ width: `${loadingProgress}%` }}
+                    >
+                      {/* Shimmer effect */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer" />
                     </div>
+                    {/* Moving particles */}
+                    <div
+                      className="absolute inset-y-0 w-2 bg-white/50 rounded-full blur-sm animate-pulse transition-all duration-500"
+                      style={{ left: `calc(${loadingProgress}% - 4px)` }}
+                    />
+                  </div>
 
-                    {/* Time estimate */}
-                    <div className="text-right flex-shrink-0">
-                      <p className="text-xs text-white/40">Est. time</p>
-                      <p className="text-sm text-white/60">10-30s</p>
-                    </div>
+                  {/* Step indicator */}
+                  <div className="flex items-center justify-between">
+                    {(() => {
+                      const steps = [
+                        "Checking Performance",
+                        "Analyzing SEO",
+                        "Scanning Security",
+                        "Testing Accessibility",
+                        "Measuring Speed",
+                      ];
+                      const currentStepIndex = Math.min(
+                        Math.floor(loadingProgress / 20),
+                        steps.length - 1
+                      );
+                      return (
+                        <p className="text-emerald-400 text-sm font-medium">
+                          <span className="inline-block w-1.5 h-1.5 bg-emerald-400 rounded-full mr-2 animate-pulse" />
+                          {steps[currentStepIndex]}
+                        </p>
+                      );
+                    })()}
+                    <p className="text-white/40 text-xs">~10-30s</p>
                   </div>
                 </div>
               )}
