@@ -30,14 +30,13 @@ function AnalyzeCard() {
   const [currentStep, setCurrentStep] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentStep((prev) => {
-        if (prev >= steps.length - 1) return prev;
-        return prev + 1;
-      });
+    if (currentStep >= steps.length) return; // Stop when all complete
+
+    const timeout = setTimeout(() => {
+      setCurrentStep((prev) => prev + 1);
     }, 3500);
-    return () => clearInterval(interval);
-  }, [steps.length]);
+    return () => clearTimeout(timeout);
+  }, [currentStep, steps.length]);
 
   return (
     <Card className="p-6 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border-white/10 h-full">
@@ -63,17 +62,17 @@ function AnalyzeCard() {
             <div
               key={index}
               className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-500 ${
-                isCurrent
-                  ? "bg-emerald-500/20 border border-emerald-500/30"
-                  : isComplete
-                  ? "bg-white/5"
+                isComplete
+                  ? "bg-emerald-500/10"
+                  : isCurrent
+                  ? "bg-white/5 border border-white/10"
                   : "opacity-40"
               }`}
             >
               {isComplete ? (
                 <CheckCircle2 className="h-5 w-5 text-emerald-400" />
               ) : isCurrent ? (
-                <Loader2 className="h-5 w-5 text-emerald-400 animate-spin" />
+                <Loader2 className="h-5 w-5 text-white/60 animate-spin" />
               ) : (
                 <Circle className="h-5 w-5 text-white/30" />
               )}
@@ -194,8 +193,10 @@ function MonitoringCard() {
       setPoints((prev) => {
         const newPoints = [...prev.slice(1)];
         const lastVal = prev[prev.length - 1];
-        const change = Math.random() > 0.5 ? 1 : -1;
-        const newVal = Math.max(70, Math.min(100, lastVal + change));
+        // Trend upward: 80% chance to go up, 20% chance to stay or slightly down
+        const change =
+          Math.random() > 0.2 ? Math.floor(Math.random() * 2) + 1 : 0;
+        const newVal = Math.min(100, lastVal + change);
         newPoints.push(newVal);
         return newPoints;
       });
@@ -327,40 +328,44 @@ function BadgeCard() {
           Updated daily • Easy to embed
         </p>
 
-        {/* Badge Preview */}
+        {/* Badge Preview - Matching Hero Badge */}
         <div className="p-4 rounded-2xl bg-gradient-to-br from-gray-900 to-black border border-white/10 shadow-xl">
           <div className="flex items-center gap-3">
-            <div className="relative w-12 h-12">
-              <svg className="w-12 h-12 -rotate-90">
+            <div className="relative w-16 h-16">
+              <svg className="w-16 h-16" viewBox="0 0 64 64">
                 <circle
-                  cx="24"
-                  cy="24"
-                  r="20"
+                  cx="32"
+                  cy="32"
+                  r="26"
                   stroke="currentColor"
-                  strokeWidth="4"
+                  strokeWidth="5"
                   fill="none"
-                  className="text-white/20"
+                  className="text-white/10"
                 />
                 <circle
-                  cx="24"
-                  cy="24"
-                  r="20"
+                  cx="32"
+                  cy="32"
+                  r="26"
                   stroke="#10b981"
-                  strokeWidth="4"
+                  strokeWidth="5"
                   fill="none"
+                  strokeDasharray={2 * Math.PI * 26}
+                  strokeDashoffset={2 * Math.PI * 26 * 0.08}
                   strokeLinecap="round"
-                  strokeDasharray={`${92 * 1.26} 126`}
+                  className="-rotate-90 origin-center"
                 />
               </svg>
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-sm font-bold text-white">92</span>
+                <span className="text-xl font-bold text-white">92</span>
               </div>
             </div>
-            <div>
-              <div className="text-xs text-gray-400">
+
+            {/* Text */}
+            <div className="text-left">
+              <div className="text-sm text-white/60">
                 verifiedtrustscore.com
               </div>
-              <div className="text-sm font-semibold text-white flex items-center gap-1">
+              <div className="text-lg font-semibold text-white">
                 Verified Website Score
               </div>
             </div>
