@@ -1,20 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { SiteHeader } from "@/components/site-header";
+import { Footer } from "@/components/footer";
 import {
-  Shield,
   Lock,
   Loader2,
   CheckCircle2,
   XCircle,
-  ArrowLeft,
   AlertTriangle,
-  Info,
 } from "lucide-react";
 
 interface HeaderResult {
@@ -88,26 +86,7 @@ export default function SecurityHeadersTool() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-black via-gray-950 to-black">
-      {/* Header */}
-      <header className="border-b border-white/10 bg-black/50 backdrop-blur-xl sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 text-xl font-bold">
-            <div className="p-2 rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-600">
-              <Shield className="h-5 w-5 text-white" />
-            </div>
-            <span className="bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
-              TrustScore
-            </span>
-          </Link>
-          <Link
-            href="/tools"
-            className="text-sm text-white/60 hover:text-white transition-colors flex items-center gap-1"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            All Tools
-          </Link>
-        </div>
-      </header>
+      <SiteHeader backLinkText="All Tools" backLinkHref="/tools" />
 
       <div className="container mx-auto px-4 py-12 max-w-3xl">
         {/* Hero */}
@@ -228,12 +207,7 @@ export default function SecurityHeadersTool() {
         )}
       </div>
 
-      {/* Footer */}
-      <footer className="border-t border-white/10 py-8 mt-12">
-        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} TrustScore. All rights reserved.
-        </div>
-      </footer>
+      <Footer />
     </main>
   );
 }

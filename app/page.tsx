@@ -424,49 +424,34 @@ export default function TrustScorePage() {
                     </div>
                   </div>
 
-                  {/* Animated Steps */}
-                  <div className="space-y-2 mb-6">
-                    {[
-                      { label: "Checking Performance", delay: 0 },
-                      { label: "Analyzing SEO", delay: 4000 },
-                      { label: "Scanning Security", delay: 8000 },
-                      { label: "Testing Accessibility", delay: 12000 },
-                      { label: "Measuring Speed", delay: 16000 },
-                    ].map((step, index) => {
-                      const isActive = loadingProgress >= index * 20;
-                      const isComplete = loadingProgress >= (index + 1) * 20;
+                  {/* Animated Steps - Show only one at a time */}
+                  <div className="mb-6">
+                    {(() => {
+                      const steps = [
+                        { label: "Checking Performance" },
+                        { label: "Analyzing SEO" },
+                        { label: "Scanning Security" },
+                        { label: "Testing Accessibility" },
+                        { label: "Measuring Speed" },
+                      ];
+                      const currentStepIndex = Math.min(
+                        Math.floor(loadingProgress / 20),
+                        steps.length - 1
+                      );
+                      const currentStep = steps[currentStepIndex];
+
                       return (
-                        <div
-                          key={index}
-                          className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-500 ${
-                            isComplete
-                              ? "bg-emerald-500/10"
-                              : isActive
-                              ? "bg-white/5 border border-white/10"
-                              : "opacity-30"
-                          }`}
-                        >
-                          {isComplete ? (
-                            <CheckCircle2 className="h-5 w-5 text-emerald-400" />
-                          ) : isActive ? (
-                            <Loader2 className="h-5 w-5 text-white/60 animate-spin" />
-                          ) : (
-                            <div className="h-5 w-5 rounded-full border-2 border-white/20" />
-                          )}
-                          <span
-                            className={`text-sm ${
-                              isComplete
-                                ? "text-emerald-400 font-medium"
-                                : isActive
-                                ? "text-white font-medium"
-                                : "text-white/40"
-                            }`}
-                          >
-                            {step.label}
+                        <div className="flex items-center gap-3 p-4 rounded-xl bg-white/5 border border-white/10 animate-in fade-in duration-300">
+                          <Loader2 className="h-5 w-5 text-emerald-400 animate-spin" />
+                          <span className="text-white font-medium">
+                            {currentStep.label}
+                          </span>
+                          <span className="text-white/40 text-sm ml-auto">
+                            {currentStepIndex + 1} / {steps.length}
                           </span>
                         </div>
                       );
-                    })}
+                    })()}
                   </div>
 
                   <Progress value={loadingProgress} className="h-2" />

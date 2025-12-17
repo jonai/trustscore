@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -28,18 +28,45 @@ function AnalyzeCard() {
   ];
 
   const [currentStep, setCurrentStep] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
 
+  // Restart animation when card enters viewport
   useEffect(() => {
-    if (currentStep >= steps.length) return; // Stop when all complete
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setCurrentStep(0); // Reset animation
+          setIsVisible(true);
+        } else {
+          setIsVisible(false);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Progress animation
+  useEffect(() => {
+    if (!isVisible || currentStep >= steps.length) return;
 
     const timeout = setTimeout(() => {
       setCurrentStep((prev) => prev + 1);
     }, 3500);
     return () => clearTimeout(timeout);
-  }, [currentStep, steps.length]);
+  }, [currentStep, steps.length, isVisible]);
 
   return (
-    <Card className="p-6 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border-white/10 h-full">
+    <Card
+      ref={cardRef}
+      className="p-6 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border-white/10 h-full"
+    >
       <div className="flex items-center gap-3 mb-4">
         <div className="p-2 rounded-lg bg-emerald-500/20">
           <Zap className="h-5 w-5 text-emerald-400" />
