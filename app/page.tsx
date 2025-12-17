@@ -9,6 +9,12 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
   Gauge,
   Search,
   Award,
@@ -20,6 +26,7 @@ import {
   Sparkles,
   Trophy,
   Wrench,
+  HelpCircle,
 } from "lucide-react";
 import { analyzeWebsite, type PageSpeedResult } from "./actions/analyze";
 import { ResultsSection } from "@/components/report/results-section";
@@ -499,6 +506,150 @@ export default function TrustScorePage() {
                     🔒 30-day money-back guarantee
                   </p>
                 </Card>
+              </div>
+            </section>
+
+            {/* Leaderboard Section */}
+            <section className="py-20 relative">
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-emerald-500/5 to-transparent pointer-events-none" />
+
+              <div className="text-center mb-12">
+                <Badge
+                  variant="secondary"
+                  className="mb-4 bg-amber-500/10 border-amber-500/30 text-amber-400"
+                >
+                  <Trophy className="h-3 w-3 mr-1" />
+                  Leaderboard
+                </Badge>
+                <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
+                  Top Performing Websites
+                </h2>
+                <p className="text-muted-foreground max-w-xl mx-auto">
+                  See who's leading the website race. Get certified to appear on
+                  the leaderboard.
+                </p>
+              </div>
+
+              <div className="max-w-2xl mx-auto space-y-3">
+                {recentAnalyses.slice(0, 5).map((site, index) => (
+                  <Link
+                    key={site.domain}
+                    href={`/certified/${site.domain}`}
+                    className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all group"
+                  >
+                    <div
+                      className={`w-10 h-10 rounded-lg flex items-center justify-center font-bold ${
+                        index === 0
+                          ? "bg-gradient-to-br from-amber-400 to-amber-600 text-black"
+                          : index === 1
+                          ? "bg-gradient-to-br from-gray-300 to-gray-400 text-black"
+                          : index === 2
+                          ? "bg-gradient-to-br from-amber-600 to-amber-800 text-white"
+                          : "bg-white/10 text-white/60"
+                      }`}
+                    >
+                      {index < 3 ? ["🥇", "🥈", "🥉"][index] : `#${index + 1}`}
+                    </div>
+                    <img
+                      src={`https://www.google.com/s2/favicons?domain=${site.domain}&sz=32`}
+                      alt=""
+                      className="w-8 h-8 rounded bg-white/10"
+                    />
+                    <span className="flex-1 font-medium text-white group-hover:text-emerald-400 transition-colors">
+                      {site.domain}
+                    </span>
+                    <span
+                      className={`font-bold ${
+                        site.score >= 90
+                          ? "text-emerald-400"
+                          : site.score >= 70
+                          ? "text-amber-400"
+                          : "text-red-400"
+                      }`}
+                    >
+                      {site.score}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+
+              <div className="text-center mt-8">
+                <Link
+                  href="/leaderboard"
+                  className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-white transition-colors"
+                >
+                  View full leaderboard
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            </section>
+
+            {/* FAQ Section */}
+            <section className="py-20">
+              <div className="text-center mb-12">
+                <Badge
+                  variant="secondary"
+                  className="mb-4 bg-purple-500/10 border-purple-500/30 text-purple-400"
+                >
+                  <HelpCircle className="h-3 w-3 mr-1" />
+                  FAQ
+                </Badge>
+                <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
+                  Frequently Asked Questions
+                </h2>
+                <p className="text-muted-foreground max-w-xl mx-auto">
+                  Everything you need to know about TrustScore.
+                </p>
+              </div>
+
+              <div className="max-w-2xl mx-auto">
+                <Accordion type="single" collapsible className="space-y-3">
+                  {[
+                    {
+                      q: "What is TrustScore?",
+                      a: "TrustScore analyzes your website's performance, SEO, accessibility, and security. Get a detailed report and claim your verified badge with a dofollow backlink.",
+                    },
+                    {
+                      q: "What do I get with the $35 certification?",
+                      a: "You get a lifetime verified badge, a public certification page with a dofollow backlink, daily automated monitoring, and a listing in our certified directory.",
+                    },
+                    {
+                      q: "Is the backlink really dofollow?",
+                      a: "Yes! Unlike most directories that use nofollow, your certification page includes a genuine dofollow link to boost your domain authority.",
+                    },
+                    {
+                      q: "How often is my score updated?",
+                      a: "Certified websites are automatically re-audited daily. Your public page always shows your current score.",
+                    },
+                    {
+                      q: "Do you offer refunds?",
+                      a: "Yes! We offer a 30-day money-back guarantee. Not satisfied? Contact us for a full refund.",
+                    },
+                  ].map((faq, index) => (
+                    <AccordionItem
+                      key={index}
+                      value={`faq-${index}`}
+                      className="bg-white/5 border border-white/10 rounded-xl px-6 data-[state=open]:bg-white/10"
+                    >
+                      <AccordionTrigger className="text-left text-white hover:no-underline py-4">
+                        {faq.q}
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground pb-4">
+                        {faq.a}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </div>
+
+              <div className="text-center mt-8">
+                <Link
+                  href="/faq"
+                  className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-white transition-colors"
+                >
+                  See all questions
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
               </div>
             </section>
           </>
