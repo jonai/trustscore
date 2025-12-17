@@ -436,28 +436,12 @@ export default function TrustScorePage() {
                 </div>
               )}
 
-              {/* Social Proof */}
+              {/* Early Access Message */}
               {!isPending && (
-                <div className="flex items-center justify-center gap-3 animate-in fade-in duration-1000">
-                  <div className="flex -space-x-2">
-                    {[
-                      { letter: "A", colors: "from-blue-400 to-blue-600" },
-                      { letter: "B", colors: "from-purple-400 to-purple-600" },
-                      { letter: "C", colors: "from-orange-400 to-orange-600" },
-                      { letter: "D", colors: "from-pink-400 to-pink-600" },
-                      { letter: "E", colors: "from-cyan-400 to-cyan-600" },
-                    ].map((user, i) => (
-                      <Avatar key={i} className="border-2 border-background">
-                        <AvatarFallback
-                          className={`bg-gradient-to-br ${user.colors} text-white text-xs font-medium`}
-                        >
-                          {user.letter}
-                        </AvatarFallback>
-                      </Avatar>
-                    ))}
-                  </div>
+                <div className="flex items-center justify-center gap-2 animate-in fade-in duration-1000">
+                  <span className="text-lg">🚀</span>
                   <p className="text-sm text-muted-foreground">
-                    Join the Beta Program & Get Verified
+                    Early Access — Be among the first to get verified
                   </p>
                 </div>
               )}
