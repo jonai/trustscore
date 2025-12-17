@@ -383,7 +383,7 @@ function BadgeCard() {
 
 export function FeaturesSection() {
   return (
-    <section id="features" className="py-24 relative scroll-mt-20">
+    <section id="features" className="py-24 relative scroll-mt-16">
       {/* Background Effects */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-emerald-500/5 to-transparent pointer-events-none" />
       <div className="absolute top-1/2 left-1/4 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none animate-pulse" />

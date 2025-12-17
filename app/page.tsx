@@ -217,10 +217,10 @@ export default function TrustScorePage() {
             className="flex items-center gap-2 cursor-pointer group absolute left-4"
             onClick={handleReset}
           >
-            {/* New Logo: 95% ring with lightning bolt and glow */}
+            {/* New Logo: 92% ring with lightning bolt and glow */}
             <div className="relative">
               <div className="absolute inset-0 bg-emerald-500/30 rounded-full blur-md group-hover:bg-emerald-500/40 transition-colors" />
-              <svg className="relative w-8 h-8" viewBox="0 0 32 32">
+              <svg className="relative w-10 h-10" viewBox="0 0 32 32">
                 {/* Background ring */}
                 <circle
                   cx="16"
@@ -231,7 +231,7 @@ export default function TrustScorePage() {
                   fill="none"
                   className="text-white/10"
                 />
-                {/* Progress ring at 95% */}
+                {/* Progress ring at 92% */}
                 <circle
                   cx="16"
                   cy="16"
@@ -240,7 +240,7 @@ export default function TrustScorePage() {
                   strokeWidth="3"
                   fill="none"
                   strokeLinecap="round"
-                  strokeDasharray={2 * Math.PI * 13 * 0.95}
+                  strokeDasharray={2 * Math.PI * 13 * 0.92}
                   strokeDashoffset={0}
                   className="-rotate-90 origin-center"
                   style={{ transformOrigin: "center" }}
@@ -253,7 +253,7 @@ export default function TrustScorePage() {
                 />
               </svg>
             </div>
-            <span className="text-lg font-semibold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
+            <span className="text-xl font-semibold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
               VerifiedTrustScore
             </span>
           </div>
@@ -518,7 +518,7 @@ export default function TrustScorePage() {
             </section>
 
             {/* Pricing Section */}
-            <section id="pricing" className="py-20 pb-32 scroll-mt-20">
+            <section id="pricing" className="py-20 pb-32 scroll-mt-16">
               <div className="text-center mb-12">
                 <Badge
                   variant="secondary"
@@ -589,7 +589,7 @@ export default function TrustScorePage() {
             </section>
 
             {/* Leaderboard Section */}
-            <section id="leaderboard" className="py-20 relative scroll-mt-20">
+            <section id="leaderboard" className="py-20 relative scroll-mt-16">
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-emerald-500/5 to-transparent pointer-events-none" />
 
               <div className="text-center mb-12">
@@ -747,7 +747,7 @@ export default function TrustScorePage() {
             </section>
 
             {/* FAQ Section */}
-            <section id="faq" className="py-20 scroll-mt-20">
+            <section id="faq" className="py-20 scroll-mt-16">
               <div className="text-center mb-12">
                 <Badge
                   variant="secondary"
