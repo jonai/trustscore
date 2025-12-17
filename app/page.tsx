@@ -67,18 +67,22 @@ export default function TrustScorePage() {
   const [error, setError] = useState<string | null>(null);
   const [loadingProgress, setLoadingProgress] = useState(0);
 
-  // Animate loading progress
+  // Animate loading progress (simulated - API doesn't provide real progress)
   useEffect(() => {
     if (isPending) {
       setLoadingProgress(0);
       const interval = setInterval(() => {
         setLoadingProgress((prev) => {
-          if (prev >= 90) return prev;
-          return prev + Math.random() * 15;
+          // Slow down as we approach 85%, never go past it until complete
+          if (prev >= 85) return 85;
+          const remaining = 85 - prev;
+          const increment = Math.max(1, remaining * 0.08 + Math.random() * 3);
+          return Math.min(85, prev + increment);
         });
-      }, 500);
+      }, 400);
       return () => clearInterval(interval);
     } else {
+      // Smoothly complete to 100%
       setLoadingProgress(100);
     }
   }, [isPending]);
@@ -414,31 +418,26 @@ export default function TrustScorePage() {
                     <p className="font-semibold text-white text-sm truncate">
                       Analyzing {website}
                     </p>
-                    <span className="text-emerald-400 text-sm font-bold">
+                    <span className="text-white/60 text-sm font-medium">
                       {Math.round(loadingProgress)}%
                     </span>
                   </div>
 
-                  {/* Progress bar with effects */}
-                  <div className="relative h-3 bg-white/10 rounded-full overflow-hidden mb-3">
+                  {/* Progress bar - white and thin */}
+                  <div className="relative h-1.5 bg-white/10 rounded-full overflow-hidden mb-3">
                     {/* Glow effect behind bar */}
                     <div
-                      className="absolute inset-y-0 left-0 bg-emerald-500/30 blur-sm rounded-full transition-all duration-500"
+                      className="absolute inset-y-0 left-0 bg-white/20 blur-sm rounded-full transition-all duration-700 ease-out"
                       style={{ width: `${loadingProgress}%` }}
                     />
                     {/* Main progress bar */}
                     <div
-                      className="absolute inset-y-0 left-0 bg-gradient-to-r from-emerald-500 via-emerald-400 to-emerald-500 rounded-full transition-all duration-500"
+                      className="absolute inset-y-0 left-0 bg-gradient-to-r from-white/80 via-white to-white/80 rounded-full transition-all duration-700 ease-out"
                       style={{ width: `${loadingProgress}%` }}
                     >
                       {/* Shimmer effect */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer" />
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent animate-shimmer" />
                     </div>
-                    {/* Moving particles */}
-                    <div
-                      className="absolute inset-y-0 w-2 bg-white/50 rounded-full blur-sm animate-pulse transition-all duration-500"
-                      style={{ left: `calc(${loadingProgress}% - 4px)` }}
-                    />
                   </div>
 
                   {/* Step indicator */}
@@ -456,8 +455,8 @@ export default function TrustScorePage() {
                         steps.length - 1
                       );
                       return (
-                        <p className="text-emerald-400 text-sm font-medium">
-                          <span className="inline-block w-1.5 h-1.5 bg-emerald-400 rounded-full mr-2 animate-pulse" />
+                        <p className="text-white/60 text-sm">
+                          <span className="inline-block w-1.5 h-1.5 bg-white/60 rounded-full mr-2 animate-pulse" />
                           {steps[currentStepIndex]}
                         </p>
                       );
