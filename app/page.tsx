@@ -316,7 +316,7 @@ export default function TrustScorePage() {
               </div>
 
               {/* Get your badge text - below badge */}
-              <div className="flex items-center justify-center gap-2 text-sm text-white/60 mt-3 mb-8">
+              <div className="flex items-center justify-center gap-2 text-sm text-white/60 mt-1 mb-12">
                 <span className="text-emerald-400">✓</span>
                 <span>Get your badge + dofollow backlink</span>
               </div>
