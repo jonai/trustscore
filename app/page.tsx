@@ -176,20 +176,27 @@ export default function TrustScorePage() {
               </span>
             </div>
             <nav className="hidden md:flex items-center gap-4 text-sm">
-              <Link
-                href="/certified-websites"
+              <a
+                href="#pricing"
                 className="text-muted-foreground hover:text-white transition-colors flex items-center gap-1"
               >
-                <Award className="h-4 w-4" />
-                Certified
-              </Link>
-              <Link
-                href="/leaderboard"
+                <Sparkles className="h-4 w-4" />
+                Pricing
+              </a>
+              <a
+                href="#leaderboard"
                 className="text-muted-foreground hover:text-white transition-colors flex items-center gap-1"
               >
                 <Trophy className="h-4 w-4" />
                 Leaderboard
-              </Link>
+              </a>
+              <a
+                href="#faq"
+                className="text-muted-foreground hover:text-white transition-colors flex items-center gap-1"
+              >
+                <HelpCircle className="h-4 w-4" />
+                FAQ
+              </a>
               <Link
                 href="/tools"
                 className="text-muted-foreground hover:text-white transition-colors flex items-center gap-1"
@@ -456,7 +463,24 @@ export default function TrustScorePage() {
             </section>
 
             {/* Pricing Section */}
-            <section className="py-20 pb-32">
+            <section id="pricing" className="py-20 pb-32 scroll-mt-20">
+              <div className="text-center mb-12">
+                <Badge
+                  variant="secondary"
+                  className="mb-4 bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
+                >
+                  <Sparkles className="h-3 w-3 mr-1" />
+                  Pricing
+                </Badge>
+                <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
+                  Get Your Website Certified
+                </h2>
+                <p className="text-muted-foreground max-w-xl mx-auto">
+                  One-time payment, lifetime benefits. Build trust with your
+                  visitors.
+                </p>
+              </div>
+
               <div className="max-w-md mx-auto">
                 <Card className="p-8 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border-white/10 relative overflow-hidden group">
                   {/* Animated border glow */}
@@ -510,7 +534,7 @@ export default function TrustScorePage() {
             </section>
 
             {/* Leaderboard Section */}
-            <section className="py-20 relative">
+            <section id="leaderboard" className="py-20 relative scroll-mt-20">
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-emerald-500/5 to-transparent pointer-events-none" />
 
               <div className="text-center mb-12">
@@ -572,20 +596,10 @@ export default function TrustScorePage() {
                   </Link>
                 ))}
               </div>
-
-              <div className="text-center mt-8">
-                <Link
-                  href="/leaderboard"
-                  className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-white transition-colors"
-                >
-                  View full leaderboard
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              </div>
             </section>
 
             {/* FAQ Section */}
-            <section className="py-20">
+            <section id="faq" className="py-20 scroll-mt-20">
               <div className="text-center mb-12">
                 <Badge
                   variant="secondary"
@@ -640,16 +654,6 @@ export default function TrustScorePage() {
                     </AccordionItem>
                   ))}
                 </Accordion>
-              </div>
-
-              <div className="text-center mt-8">
-                <Link
-                  href="/faq"
-                  className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-white transition-colors"
-                >
-                  See all questions
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
               </div>
             </section>
           </>
